@@ -4,11 +4,18 @@ metadata:
   name: nginx
   namespace: test-nginx
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    # Enable automatic HTTPS redirect
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # Use Let's Encrypt staging for testing (switch to letsencrypt-prod when ready)
+    cert-manager.io/cluster-issuer: letsencrypt-staging
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+        - nginx.teim.app
+      secretName: nginx-teim-app-tls
   rules:
-    - host: nginx.homelab.local
+    - host: nginx.teim.app
       http:
         paths:
           - path: /

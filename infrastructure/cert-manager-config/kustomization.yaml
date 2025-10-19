@@ -3,3 +3,4 @@ kind: Kustomization
 
 resources:
   - cluster-issuer.yaml
+  - cloudflare-api-token-secret.enc.yaml

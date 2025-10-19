@@ -62,6 +62,9 @@ data:
                 <h2>Deployment Details</h2>
                 <ul>
                     <li><strong>Application:</strong> Nginx Test Webserver</li>
+                    <li><strong>Domain:</strong> nginx.teim.app</li>
+                    <li><strong>TLS Certificate:</strong> Let's Encrypt (DNS-01 Challenge)</li>
+                    <li><strong>DNS Provider:</strong> Cloudflare</li>
                     <li><strong>Namespace:</strong> test-nginx</li>
                     <li><strong>Managed by:</strong> FluxCD GitOps</li>
                     <li><strong>Platform:</strong> Talos Kubernetes</li>

@@ -6,6 +6,7 @@ metadata:
 spec:
   selfSigned: {}
 ---
+# Let's Encrypt Staging - use for testing to avoid rate limits
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -13,14 +14,22 @@ metadata:
 spec:
   acme:
     server: https://acme-staging-v02.api.letsencrypt.org/directory
-    email: changeme@example.com  # TODO: Change this to your email
+    email: sean@seanmooney.info
     privateKeySecretRef:
       name: letsencrypt-staging-key
     solvers:
-      - http01:
-          ingress:
-            class: nginx
+      # DNS-01 challenge using Cloudflare for wildcard certificates
+      - dns01:
+          cloudflare:
+            email: sean@seanmooney.info
+            apiTokenSecretRef:
+              name: cloudflare-api-token
+              key: api-token
+        selector:
+          dnsZones:
+            - 'teim.app'
 ---
+# Let's Encrypt Production - use after testing with staging
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -28,10 +37,17 @@ metadata:
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
-    email: changeme@example.com  # TODO: Change this to your email
+    email: sean@seanmooney.info
     privateKeySecretRef:
       name: letsencrypt-prod-key
     solvers:
-      - http01:
-          ingress:
-            class: nginx
+      # DNS-01 challenge using Cloudflare for wildcard certificates
+      - dns01:
+          cloudflare:
+            email: sean@seanmooney.info
+            apiTokenSecretRef:
+              name: cloudflare-api-token
+              key: api-token
+        selector:
+          dnsZones:
+            - 'teim.app'

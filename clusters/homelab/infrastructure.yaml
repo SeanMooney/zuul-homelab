@@ -94,3 +94,23 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
+---
+# Layer 3: Shared Certificates (after cert-manager is ready)
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: certificates
+  namespace: flux-system
+spec:
+  interval: 10m
+  retryInterval: 1m
+  timeout: 5m
+  dependsOn:
+    - name: cert-manager
+    - name: cert-manager-config
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/certificates
+  prune: true
+  wait: true

@@ -7,9 +7,6 @@ metadata:
     # Enable automatic HTTPS redirect
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
 
-    # Use Let's Encrypt staging for testing (switch to letsencrypt-prod when ready)
-    cert-manager.io/cluster-issuer: letsencrypt-staging
-
     # Backend uses HTTPS
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 
@@ -23,7 +20,8 @@ spec:
   tls:
     - hosts:
         - pb.teim.app
-      secretName: pb-teim-app-tls
+      # Uses wildcard certificate
+      secretName: teim-app-wildcard-tls
   rules:
     - host: pb.teim.app
       http:

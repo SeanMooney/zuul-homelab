@@ -6,4 +6,5 @@ namespace: external-services
 resources:
   - service.yaml
   - endpoints.yaml
+  - certificate.yaml
   - ingress.yaml

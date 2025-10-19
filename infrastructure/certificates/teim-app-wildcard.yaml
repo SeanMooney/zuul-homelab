@@ -1,0 +1,35 @@
+---
+# Wildcard certificate for *.teim.app
+# This certificate can be used by all services under teim.app
+# Stored in cert-manager namespace for global access
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: teim-app-wildcard
+  namespace: cert-manager
+spec:
+  # Common name
+  commonName: "*.teim.app"
+
+  # DNS names covered by this certificate
+  dnsNames:
+    - "*.teim.app"     # Wildcard for all subdomains
+    - "teim.app"       # Root domain
+
+  # Secret where the certificate will be stored
+  secretName: teim-app-wildcard-tls
+
+  # Use Let's Encrypt Production for real certificates
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+    group: cert-manager.io
+
+  # Certificate duration and renewal
+  duration: 2160h  # 90 days
+  renewBefore: 720h  # Renew 30 days before expiry
+
+  # Private key configuration
+  privateKey:
+    algorithm: RSA
+    size: 2048

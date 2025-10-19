@@ -1,0 +1,27 @@
+---
+# Certificate for pb.teim.app
+# Uses the wildcard certificate
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: teim-app-wildcard
+  namespace: external-services
+spec:
+  # Reference the wildcard cert
+  commonName: "*.teim.app"
+  dnsNames:
+    - "*.teim.app"
+    - "teim.app"
+
+  # Secret name (must match ingress)
+  secretName: teim-app-wildcard-tls
+
+  # Use the ClusterIssuer
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+    group: cert-manager.io
+
+  # Certificate settings
+  duration: 2160h
+  renewBefore: 720h

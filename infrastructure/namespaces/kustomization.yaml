@@ -5,3 +5,4 @@ resources:
   - zuul-system.yaml
   - postgres-system.yaml
   - zookeeper-system.yaml
+  - ingress-nginx.yaml

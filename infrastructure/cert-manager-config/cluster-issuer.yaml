@@ -21,7 +21,6 @@ spec:
       # DNS-01 challenge using Cloudflare for wildcard certificates
       - dns01:
           cloudflare:
-            email: sean@seanmooney.info
             apiTokenSecretRef:
               name: cloudflare-api-token
               key: api-token
@@ -44,7 +43,6 @@ spec:
       # DNS-01 challenge using Cloudflare for wildcard certificates
       - dns01:
           cloudflare:
-            email: sean@seanmooney.info
             apiTokenSecretRef:
               name: cloudflare-api-token
               key: api-token

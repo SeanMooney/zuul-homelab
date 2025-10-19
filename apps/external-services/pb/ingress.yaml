@@ -18,12 +18,6 @@ metadata:
 
     # Supported TLS protocols for backend
     nginx.ingress.kubernetes.io/proxy-ssl-protocols: "TLSv1.2 TLSv1.3"
-
-    # Optional: Set proxy headers for backend to know about original request
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header X-Forwarded-Proto https;
-      proxy_set_header X-Forwarded-Host $host;
-      proxy_set_header X-Forwarded-Port $server_port;
 spec:
   ingressClassName: nginx
   tls:

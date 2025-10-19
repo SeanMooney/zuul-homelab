@@ -1,0 +1,38 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: reflector
+  namespace: flux-system
+spec:
+  interval: 10m
+  timeout: 5m
+  chart:
+    spec:
+      chart: reflector
+      version: ">=7.0.0 <8.0.0"
+      sourceRef:
+        kind: HelmRepository
+        name: emberstack
+        namespace: flux-system
+      interval: 24h
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    # Reflector works out of the box with default configuration
+    # It watches for secrets/configmaps with reflector annotations
+    # and automatically mirrors them to target namespaces
+
+    # Resource limits for homelab
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 50m
+        memory: 64Mi

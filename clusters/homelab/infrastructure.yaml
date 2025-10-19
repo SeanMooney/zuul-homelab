@@ -72,6 +72,25 @@ spec:
       name: cert-manager-cainjector
       namespace: cert-manager
 ---
+# Layer 2: Reflector (secret/configmap replication)
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: reflector
+  namespace: flux-system
+spec:
+  interval: 10m
+  retryInterval: 1m
+  timeout: 5m
+  dependsOn:
+    - name: namespaces
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/reflector
+  prune: true
+  wait: true
+---
 # Layer 3: Cert-Manager Configuration (after cert-manager is ready)
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

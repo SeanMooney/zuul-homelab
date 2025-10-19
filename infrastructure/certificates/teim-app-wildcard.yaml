@@ -1,7 +1,7 @@
 ---
 # Wildcard certificate for *.teim.app
 # This certificate can be used by all services under teim.app
-# Stored in cert-manager namespace for global access
+# Stored in cert-manager namespace and replicated via Reflector
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -33,3 +33,14 @@ spec:
   privateKey:
     algorithm: RSA
     size: 2048
+
+  # Secret template with Reflector annotations
+  # This causes the secret to be automatically replicated to other namespaces
+  secretTemplate:
+    annotations:
+      # Allow reflection to other namespaces
+      reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+
+      # Automatically replicate to these namespaces
+      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "test-nginx,external-services"

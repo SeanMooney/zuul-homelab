@@ -1,0 +1,21 @@
+# Unencrypted secrets - never commit these!
+**/secrets/*.yaml
+!**/secrets/*.enc.yaml
+!**/secrets/kustomization.yaml
+
+# Local configuration files
+.env
+*.local
+
+# Age private keys (keep secure!)
+age.agekey
+keys.txt
+
+# Temporary files
+*.tmp
+*.swp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db

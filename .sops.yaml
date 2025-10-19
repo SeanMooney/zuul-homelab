@@ -1,0 +1,15 @@
+creation_rules:
+  # Encrypt secrets in apps/zuul/secrets/
+  - path_regex: apps/zuul/secrets/.*\.enc\.yaml$
+    encrypted_regex: ^(data|stringData)$
+    age: age1akle2yksua7txww5e86es4665pnmr875lpuax7rjvw0m7qthhq8s8fzm7t
+
+  # Encrypt database secrets
+  - path_regex: infrastructure/database/.*secret.*\.yaml$
+    encrypted_regex: ^(data|stringData)$
+    age: age1akle2yksua7txww5e86es4665pnmr875lpuax7rjvw0m7qthhq8s8fzm7t
+
+  # Encrypt any file with .enc.yaml extension
+  - path_regex: .*\.enc\.yaml$
+    encrypted_regex: ^(data|stringData)$
+    age: age1akle2yksua7txww5e86es4665pnmr875lpuax7rjvw0m7qthhq8s8fzm7t

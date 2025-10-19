@@ -90,3 +90,7 @@ spec:
   path: ./infrastructure/cert-manager-config
   prune: true
   wait: true
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age

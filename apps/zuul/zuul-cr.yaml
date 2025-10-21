@@ -5,7 +5,7 @@ metadata:
   namespace: zuul-system
 spec:
   # Image configuration
-  imagePrefix: quay.io/zuul-ci/
+  imagePrefix: quay.io/zuul-ci
 
   # External database
   database:

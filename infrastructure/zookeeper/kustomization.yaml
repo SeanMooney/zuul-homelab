@@ -5,5 +5,6 @@ namespace: zookeeper-system
 
 resources:
   - pvc.yaml
+  - configmap.yaml
   - statefulset.yaml
   - service.yaml

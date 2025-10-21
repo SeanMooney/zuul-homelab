@@ -14,12 +14,54 @@ spec:
       labels:
         app: zookeeper
     spec:
+      initContainers:
+        # Convert PEM certificates to JKS keystores for ZooKeeper
+        - name: setup-tls
+          image: eclipse-temurin:17-jre-alpine
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -ex
+
+              # Create keystore from server certificate and key
+              openssl pkcs12 -export \
+                -in /tls-pem/tls.crt \
+                -inkey /tls-pem/tls.key \
+                -out /tls/server/keystore.p12 \
+                -name zookeeper \
+                -passout pass:changeit
+
+              keytool -importkeystore \
+                -srckeystore /tls/server/keystore.p12 \
+                -srcstoretype PKCS12 \
+                -srcstorepass changeit \
+                -destkeystore /tls/server/keystore.jks \
+                -deststoretype JKS \
+                -deststorepass changeit \
+                -noprompt
+
+              # Create truststore from CA certificate
+              keytool -importcert \
+                -file /tls-pem/ca.crt \
+                -keystore /tls/server/truststore.jks \
+                -storepass changeit \
+                -alias ca \
+                -noprompt
+
+              echo "TLS setup complete"
+          volumeMounts:
+            - name: tls-pem
+              mountPath: /tls-pem
+              readOnly: true
+            - name: tls
+              mountPath: /tls/server
       containers:
         - name: zookeeper
           image: zookeeper:3.9.1
           ports:
-            - containerPort: 2181
-              name: client
+            - containerPort: 2281
+              name: secure-client
             - containerPort: 2888
               name: follower
             - containerPort: 3888
@@ -28,14 +70,22 @@ spec:
             - name: ZOO_STANDALONE_ENABLED
               value: "true"
             - name: ZOO_AUTOPURGE_PURGEINTERVAL
-              value: "1"
+              value: "2"
             - name: ZOO_AUTOPURGE_SNAPRETAINCOUNT
               value: "3"
+            - name: SERVER_JVMFLAGS
+              value: "-Xmx512m -Xms512m"
           volumeMounts:
             - name: data
               mountPath: /data
             - name: datalog
               mountPath: /datalog
+            - name: config
+              mountPath: /conf/zoo.cfg
+              subPath: zoo.cfg
+            - name: tls
+              mountPath: /tls/server
+              readOnly: true
           resources:
             requests:
               cpu: 250m
@@ -48,4 +98,12 @@ spec:
           persistentVolumeClaim:
             claimName: zookeeper-data
         - name: datalog
+          emptyDir: {}
+        - name: config
+          configMap:
+            name: zookeeper-config
+        - name: tls-pem
+          secret:
+            secretName: zookeeper-server-tls
+        - name: tls
           emptyDir: {}

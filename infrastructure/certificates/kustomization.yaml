@@ -3,3 +3,7 @@ kind: Kustomization
 
 resources:
   - teim-app-wildcard.yaml
+  - zookeeper-ca-issuer.yaml
+  - zookeeper-ca-certificate.yaml
+  - zookeeper-server-cert.yaml
+  - zookeeper-client-cert.yaml

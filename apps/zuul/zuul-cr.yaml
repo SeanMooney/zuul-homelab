@@ -11,9 +11,10 @@ spec:
   database:
     secretName: zuul-db-uri
 
-  # External ZooKeeper
+  # External ZooKeeper with TLS
   zookeeper:
-    hosts: zookeeper.zookeeper-system.svc.cluster.local:2181
+    hosts: zookeeper.zookeeper-system.svc.cluster.local:2281
+    secretName: zookeeper-client-tls
 
   # Scheduler - single replica for homelab
   scheduler:

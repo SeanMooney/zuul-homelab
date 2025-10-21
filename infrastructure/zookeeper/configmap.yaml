@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zookeeper-config
+  namespace: zookeeper-system
+data:
+  zoo.cfg: |
+    # Basic ZooKeeper configuration
+    tickTime=2000
+    initLimit=10
+    syncLimit=5
+    dataDir=/data
+    dataLogDir=/datalog
+
+    # Auto-purge snapshots (recommended by Zuul docs)
+    autopurge.purgeInterval=2
+    autopurge.snapRetainCount=3
+
+    # Standalone mode
+    standaloneEnabled=true
+
+    # TLS Configuration
+    # Use Netty for TLS support
+    serverCnxnFactory=org.apache.zookeeper.server.NettyServerCnxnFactory
+
+    # Secure client port (TLS)
+    secureClientPort=2281
+
+    # Server SSL configuration
+    ssl.keyStore.location=/tls/server/keystore.jks
+    ssl.keyStore.password=changeit
+    ssl.trustStore.location=/tls/server/truststore.jks
+    ssl.trustStore.password=changeit
+
+    # Client SSL configuration (for server-to-server in quorum)
+    ssl.clientAuth=need
+
+    # Disable insecure port (optional - comment out to allow both)
+    # clientPort=2181
+
+  java.env: |
+    # Java environment for ZooKeeper
+    SERVER_JVMFLAGS="-Xmx512m -Xms512m"

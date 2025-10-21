@@ -1,0 +1,31 @@
+---
+# ZooKeeper Client Certificate
+# Used by Zuul components to connect to ZooKeeper
+# Will be replicated to zuul-system namespace via Reflector
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: zookeeper-client
+  namespace: cert-manager
+spec:
+  commonName: zuul-client
+  dnsNames:
+    - zuul-client
+  secretName: zookeeper-client-tls
+  duration: 8760h  # 1 year
+  renewBefore: 720h  # Renew 30 days before expiry
+  privateKey:
+    algorithm: RSA
+    size: 2048
+  usages:
+    - client auth
+  issuerRef:
+    name: zookeeper-ca
+    kind: ClusterIssuer
+    group: cert-manager.io
+  # Reflector annotations to replicate to zuul-system
+  secretTemplate:
+    annotations:
+      reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "zuul-system"

@@ -7,7 +7,7 @@ spec:
   selector:
     app: zookeeper
   ports:
-    - port: 2181
-      targetPort: 2181
-      name: client
+    - port: 2281
+      targetPort: 2281
+      name: secure-client
   clusterIP: None

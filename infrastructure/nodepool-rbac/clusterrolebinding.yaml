@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: nodepool-launcher
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: zuul-system
+roleRef:
+  kind: ClusterRole
+  name: nodepool-launcher
+  apiGroup: rbac.authorization.k8s.io

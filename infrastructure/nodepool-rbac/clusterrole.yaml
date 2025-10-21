@@ -1,0 +1,39 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: nodepool-launcher
+rules:
+  # Nodepool needs to manage namespaces for job isolation
+  - apiGroups: [""]
+    resources: ["namespaces"]
+    verbs: ["create", "delete", "get", "list", "watch", "patch", "update"]
+
+  # Full pod management for job execution
+  - apiGroups: [""]
+    resources: ["pods", "pods/log", "pods/exec"]
+    verbs: ["*"]
+
+  # Services for pod networking
+  - apiGroups: [""]
+    resources: ["services"]
+    verbs: ["*"]
+
+  # ConfigMaps and Secrets for pod configuration
+  - apiGroups: [""]
+    resources: ["configmaps", "secrets"]
+    verbs: ["create", "delete", "get", "list", "watch", "patch", "update"]
+
+  # PersistentVolumeClaims for pod storage
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims"]
+    verbs: ["*"]
+
+  # ServiceAccounts for pods created by nodepool
+  - apiGroups: [""]
+    resources: ["serviceaccounts"]
+    verbs: ["create", "delete", "get", "list", "watch", "patch", "update"]
+
+  # RBAC for pods created by nodepool
+  - apiGroups: ["rbac.authorization.k8s.io"]
+    resources: ["roles", "rolebindings"]
+    verbs: ["create", "delete", "get", "list", "watch", "patch", "update"]

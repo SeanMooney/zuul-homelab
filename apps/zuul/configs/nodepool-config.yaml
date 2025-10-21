@@ -3,21 +3,36 @@ zookeeper-servers:
     port: 2181
 
 labels:
-  - name: ubuntu-jammy
+  - name: ubuntu-22-04-pod
+    min-ready: 0  # On-demand for homelab
+  - name: ubuntu-24-04-pod
+    min-ready: 0  # On-demand for homelab
+  - name: debian-13-pod
     min-ready: 0  # On-demand for homelab
 
 providers:
   - name: kubernetes-pods
     driver: kubernetes
-    context: zuul-context
     max-servers: 5
 
     pools:
       - name: main
         labels:
-          - name: ubuntu-jammy
+          - name: ubuntu-22-04-pod
             type: pod
             image: ubuntu:22.04
+            python-path: /usr/bin/python3
+            cpu: 2
+            memory: 2048
+          - name: ubuntu-24-04-pod
+            type: pod
+            image: ubuntu:24.04
+            python-path: /usr/bin/python3
+            cpu: 2
+            memory: 2048
+          - name: debian-13-pod
+            type: pod
+            image: debian:13
             python-path: /usr/bin/python3
             cpu: 2
             memory: 2048

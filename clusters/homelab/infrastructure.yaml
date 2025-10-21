@@ -91,6 +91,25 @@ spec:
   prune: true
   wait: true
 ---
+# Layer 2: Nodepool RBAC (after namespaces)
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: nodepool-rbac
+  namespace: flux-system
+spec:
+  interval: 10m
+  retryInterval: 1m
+  timeout: 2m
+  dependsOn:
+    - name: namespaces
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/nodepool-rbac
+  prune: true
+  wait: true
+---
 # Layer 3: Cert-Manager Configuration (after cert-manager is ready)
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

@@ -4,16 +4,23 @@ metadata:
   name: zuul-operator
 rules:
   - apiGroups: [""]
-    resources: ["pods", "services", "endpoints", "persistentvolumeclaims", "events", "configmaps", "secrets", "namespaces"]
+    resources: ["pods", "services", "services/finalizers", "endpoints", "persistentvolumeclaims", "events", "configmaps", "secrets", "ingresses", "namespaces"]
     verbs: ["*"]
   - apiGroups: [""]
     resources: ["pods/exec"]
     verbs: ["create", "get"]
   - apiGroups: ["apps"]
-    resources: ["deployments", "statefulsets"]
+    resources: ["deployments", "daemonsets", "replicasets", "statefulsets"]
     verbs: ["*"]
+  - apiGroups: ["apps"]
+    resources: ["deployments/finalizers"]
+    resourceNames: ["zuul-operator"]
+    verbs: ["update"]
   - apiGroups: ["networking.k8s.io"]
     resources: ["ingresses"]
+    verbs: ["*"]
+  - apiGroups: ["policy"]
+    resources: ["poddisruptionbudgets"]
     verbs: ["*"]
   - apiGroups: ["route.openshift.io"]
     resources: ["routes"]
@@ -27,6 +34,12 @@ rules:
   - apiGroups: ["cert-manager.io"]
     resources: ["issuers", "certificates", "certificaterequests"]
     verbs: ["*"]
+  - apiGroups: ["pxc.percona.com"]
+    resources: ["*"]
+    verbs: ["*"]
+  - apiGroups: ["monitoring.coreos.com"]
+    resources: ["servicemonitors"]
+    verbs: ["get", "create"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding

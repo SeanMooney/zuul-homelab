@@ -6,10 +6,12 @@
     source:
       github:
         config-projects:
-          # Replace with your actual GitHub user/org and config repo
-          - YOUR_GITHUB_USER/zuul-jobs:
+          - SeanMooney/ci-sean-mooney:
               load-branch: main
 
         untrusted-projects:
-          # Replace with your actual projects
-          - YOUR_GITHUB_USER/your-project
+          - SeanMooney/ci-jobs
+
+      opendev:
+        untrusted-projects:
+          - zuul/zuul-jobs

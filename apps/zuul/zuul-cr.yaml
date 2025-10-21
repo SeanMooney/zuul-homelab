@@ -41,11 +41,10 @@ spec:
 
   # Source code connections
   connections:
-    gerrithub:
+    review.opendev.org:
       driver: gerrit
       server: review.opendev.org
+      secretName: gerrit-connection
     github:
       driver: github
-      app_id: "000000"
-      app_key: /etc/zuul/github_rsa
-      webhook_token: PLACEHOLDER
+      secretName: github-connection

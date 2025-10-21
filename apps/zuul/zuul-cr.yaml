@@ -41,7 +41,7 @@ spec:
 
   # Source code connections
   connections:
-    review.opendev.org:
+    opendev:
       driver: gerrit
       server: review.opendev.org
       secretName: gerrit-connection

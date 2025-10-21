@@ -1,0 +1,89 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: minio-init
+  namespace: minio-system
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+spec:
+  ttlSecondsAfterFinished: 600
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: minio-init
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: init
+        image: quay.io/minio/mc:latest
+        command:
+        - /bin/sh
+        - -c
+        - |
+          set -e
+
+          echo "Waiting for MinIO to be ready..."
+          until mc alias set myminio http://minio-api:9000 "$MINIO_ROOT_USER" "$MINIO_ROOT_PASSWORD"; do
+            echo "Waiting for MinIO..."
+            sleep 5
+          done
+
+          echo "Creating zuul-logs bucket..."
+          mc mb myminio/zuul-logs --ignore-existing
+
+          echo "Setting public download policy for zuul-logs bucket..."
+          mc anonymous set download myminio/zuul-logs
+
+          echo "Creating zuul-upload user..."
+          mc admin user add myminio "$ZUUL_ACCESS_KEY" "$ZUUL_SECRET_KEY" || echo "User already exists"
+
+          echo "Creating zuul-upload-policy..."
+          cat <<EOF > /tmp/zuul-upload-policy.json
+          {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "s3:PutObject",
+                  "s3:GetObject",
+                  "s3:DeleteObject",
+                  "s3:ListBucket"
+                ],
+                "Resource": [
+                  "arn:aws:s3:::zuul-logs",
+                  "arn:aws:s3:::zuul-logs/*"
+                ]
+              }
+            ]
+          }
+          EOF
+
+          mc admin policy create myminio zuul-upload-policy /tmp/zuul-upload-policy.json || echo "Policy already exists"
+
+          echo "Attaching policy to zuul-upload user..."
+          mc admin policy attach myminio zuul-upload-policy --user "$ZUUL_ACCESS_KEY"
+
+          echo "MinIO initialization complete!"
+        env:
+        - name: MINIO_ROOT_USER
+          valueFrom:
+            secretKeyRef:
+              name: minio-root-credentials
+              key: root-user
+        - name: MINIO_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: minio-root-credentials
+              key: root-password
+        - name: ZUUL_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: minio-root-credentials
+              key: zuul-access-key
+        - name: ZUUL_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: minio-root-credentials
+              key: zuul-secret-key

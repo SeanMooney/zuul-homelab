@@ -5,13 +5,11 @@ metadata:
   namespace: zuul-system
 spec:
   # Image configuration
-  imagePrefix: quay.io/zuul-ci/
-  imageTag: latest
+  imagePrefix: quay.io/zuul-ci/zuul-
 
   # External database
   database:
     secretName: zuul-db-uri
-    key: dburi
 
   # External ZooKeeper
   zookeeper:
@@ -19,77 +17,34 @@ spec:
 
   # Scheduler - single replica for homelab
   scheduler:
-    replicas: 1
-    resources:
-      requests:
-        cpu: 500m
-        memory: 1Gi
-      limits:
-        cpu: 1000m
-        memory: 2Gi
+    count: 1
+    config:
+      secretName: zuul-tenant-config
 
   # Web UI - single replica
   web:
-    replicas: 1
-    resources:
-      requests:
-        cpu: 250m
-        memory: 512Mi
-      limits:
-        cpu: 500m
-        memory: 1Gi
-    service:
-      type: ClusterIP
-      port: 9000
+    count: 1
 
   # Executor - single replica
   executor:
-    replicas: 1
-    resources:
-      requests:
-        cpu: 1000m
-        memory: 2Gi
-      limits:
-        cpu: 2000m
-        memory: 4Gi
-    # Talos: Use allowed volume path
-    volumeMounts:
-      - name: workspace
-        mountPath: /var/lib/zuul
-    volumes:
-      - name: workspace
-        emptyDir:
-          sizeLimit: 10Gi
+    count: 1
 
   # Merger - single replica
   merger:
-    replicas: 1
-    resources:
-      requests:
-        cpu: 250m
-        memory: 512Mi
-      limits:
-        cpu: 500m
-        memory: 1Gi
+    count: 1
 
   # Nodepool launcher
   launcher:
     config:
       secretName: nodepool-config
-    resources:
-      requests:
-        cpu: 250m
-        memory: 512Mi
-      limits:
-        cpu: 500m
-        memory: 1Gi
 
   # Source code connections
   connections:
-    - name: github
+    gerrithub:
+      driver: gerrit
+      server: review.opendev.org
+    github:
       driver: github
-      secretName: github-connection
-
-  # Tenant configuration
-  tenants:
-    secretName: zuul-tenant-config
+      app_id: "000000"
+      app_key: /etc/zuul/github_rsa
+      webhook_token: PLACEHOLDER

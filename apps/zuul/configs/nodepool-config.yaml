@@ -1,0 +1,23 @@
+zookeeper-servers:
+  - host: zookeeper.zookeeper-system.svc.cluster.local
+    port: 2181
+
+labels:
+  - name: ubuntu-jammy
+    min-ready: 0  # On-demand for homelab
+
+providers:
+  - name: kubernetes-pods
+    driver: kubernetes
+    context: zuul-context
+    max-servers: 5
+
+    pools:
+      - name: main
+        labels:
+          - name: ubuntu-jammy
+            type: pod
+            image: ubuntu:22.04
+            python-path: /usr/bin/python3
+            cpu: 2
+            memory: 2048

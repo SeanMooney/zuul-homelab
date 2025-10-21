@@ -1,0 +1,15 @@
+- tenant:
+    name: main
+    max-nodes-per-job: 3
+    max-job-timeout: 7200  # 2 hours
+
+    source:
+      github:
+        config-projects:
+          # Replace with your actual GitHub user/org and config repo
+          - YOUR_GITHUB_USER/zuul-jobs:
+              load-branch: main
+
+        untrusted-projects:
+          # Replace with your actual projects
+          - YOUR_GITHUB_USER/your-project

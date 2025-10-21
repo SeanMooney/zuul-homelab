@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: zuul-system
+
+resources:
+  # Zuul CRD
+  - https://opendev.org/zuul/zuul-operator/raw/branch/master/deploy/crds/zuul-ci_v1alpha2_zuul_crd.yaml
+  # Operator
+  - operator/
+  # Configurations
+  - configs/
+  # Secrets
+  - secrets/
+  # Zuul CR and Ingress
+  - zuul-cr.yaml
+  - ingress.yaml

@@ -133,3 +133,45 @@ spec:
   path: ./infrastructure/certificates
   prune: true
   wait: true
+---
+# Layer 3: ZooKeeper (after namespaces)
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: zookeeper
+  namespace: flux-system
+spec:
+  interval: 10m
+  retryInterval: 1m
+  timeout: 10m
+  dependsOn:
+    - name: namespaces
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/zookeeper
+  prune: true
+  wait: true
+---
+# Layer 3: PostgreSQL Database (after namespaces)
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: database
+  namespace: flux-system
+spec:
+  interval: 10m
+  retryInterval: 1m
+  timeout: 10m
+  dependsOn:
+    - name: namespaces
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/database
+  prune: true
+  wait: true
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age

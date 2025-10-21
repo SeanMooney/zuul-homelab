@@ -1,0 +1,35 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: postgres-system
+resources:
+    - pvc.yaml
+    - statefulset.yaml
+    - service.yaml
+secretGenerator:
+    - name: postgres-credentials
+      literals:
+        - ENC[AES256_GCM,data:PJecbyiM2uvUWwz1LfdMTw==,iv:xMzHW5aIp1Vf8RepS9T6f4Za6l0jzkKB/xKR2rU7120=,tag:Tlp8e2wL7CnNPa+HUiKqZg==,type:str]
+        - ENC[AES256_GCM,data:Ekdq7nldejM9aTSqHhwzONRE,iv:UXY6vyIT5zX+GUslvuAYPqzs7/OJHKzgnWVeW10W+y8=,tag:TTr1+4gkJmJnRGlOitKmnQ==,type:str]
+        - ENC[AES256_GCM,data:rL2YYjiXWe7DjAGxg3Wb+xt2KNxcmJoxMuKkcXsj7XanStN957uVRie7+CGQWcOqCd9jL5pShk4YUOFsLKE=,iv:HlC25vYH65QAna9FIV+N+NRO31MRkxg2AxYK24W053k=,tag:S3k+7Gf4U2UemmisaVUJhw==,type:str]
+      options:
+        disableNameSuffixHash: true
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age1akle2yksua7txww5e86es4665pnmr875lpuax7rjvw0m7qthhq8s8fzm7t
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBMUENHMmJiUkVBOHJSVlNr
+            R2N6ZXhIZU4yUG1BWHAxeE1tN3Z5RHZqR1dnClRJZ3ZrU3dBQncrRjdVallBSm1S
+            UjNidHVIYkJXQWZrOWhER2RyVFgwTTAKLS0tIEdaUzhOMGhKSmhLT0dXR0NRUFVr
+            UkgvbUNVdlYzUUt2U2poOW53Mzh3cmcK5C4fNgZCBwPYps7jL+bjuziKSiAjraP2
+            8MSxwWmdKzWRF35/8xnOngmL4s8NGexCFmeHm1t9II2iLuH9RgyzLA==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2025-10-21T03:08:24Z"
+    mac: ENC[AES256_GCM,data:AoRrq9cwxJ/DW843HA6w1Xo22GRbkngfckIKDro4iGk9OO5xTyjmCHMojQxGremPNIxvWUY2Bqda2/GGKlz/dpsjgDLXTyf/piZ/tW7v3tXu2nYQu5Me4NEFnGw+PzY4Js+7XNedwEivLtgd+Ejp+y/hq2s1M2ktSWUN/pI8VqM=,iv:2gKIhebskA1PVLsfD62C4vWSzmGyBI4rIcK8OrqFbts=,tag:riP67JWpSJIdBA15IKGwRA==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData|literals)$
+    version: 3.8.1

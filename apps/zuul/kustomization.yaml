@@ -15,15 +15,3 @@ resources:
   # Zuul CR and Ingress
   - zuul-cr.yaml
   - ingress.yaml
-
-# Patch executor to remove pod-level runAsUser/runAsGroup
-# This allows bubblewrap to create user namespaces for job isolation
-patches:
-  - target:
-      kind: StatefulSet
-      name: zuul-executor
-    patch: |-
-      - op: remove
-        path: /spec/template/spec/securityContext/runAsUser
-      - op: remove
-        path: /spec/template/spec/securityContext/runAsGroup

@@ -16,8 +16,10 @@ spec:
       serviceAccountName: zuul-operator
       containers:
         - name: zuul-operator
-          image: quay.io/zuul-ci/zuul-operator:latest
-          imagePullPolicy: Always
+          # Custom build with executor securityContext fix
+          # Source: https://github.com/SeanMooney/zuul-operator/commit/89ce1ae
+          image: ghcr.io/seanmooney/zuul-operator:master-c3fe5ae
+          imagePullPolicy: IfNotPresent
           env:
             - name: WATCH_NAMESPACE
               value: zuul-system

@@ -1,0 +1,13 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zuul-executor
+  namespace: zuul-system
+spec:
+  template:
+    spec:
+      volumes:
+        - name: nodepool-private-key
+          secret:
+            secretName: executor-sshkey
+            defaultMode: 256  # Octal 0400: read-only for owner, required for SSH keys

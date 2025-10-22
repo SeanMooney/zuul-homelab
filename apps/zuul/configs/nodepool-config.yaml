@@ -20,19 +20,37 @@ providers:
         labels:
           - name: ubuntu-22-04-pod
             type: pod
-            image: ubuntu:22.04
             python-path: /usr/bin/python3
             cpu: 2
             memory: 2048
+            spec:
+              containers:
+                - name: ubuntu-22-04-pod
+                  image: ubuntu:22.04
+                  imagePullPolicy: IfNotPresent
+                  command: ["/bin/sh", "-c"]
+                  args: ["apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-apt && sleep infinity"]
           - name: ubuntu-24-04-pod
             type: pod
-            image: ubuntu:24.04
             python-path: /usr/bin/python3
             cpu: 2
             memory: 2048
+            spec:
+              containers:
+                - name: ubuntu-24-04-pod
+                  image: ubuntu:24.04
+                  imagePullPolicy: IfNotPresent
+                  command: ["/bin/sh", "-c"]
+                  args: ["apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-apt && sleep infinity"]
           - name: debian-13-pod
             type: pod
-            image: debian:13
             python-path: /usr/bin/python3
             cpu: 2
             memory: 2048
+            spec:
+              containers:
+                - name: debian-13-pod
+                  image: debian:13
+                  imagePullPolicy: IfNotPresent
+                  command: ["/bin/sh", "-c"]
+                  args: ["apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-apt && sleep infinity"]

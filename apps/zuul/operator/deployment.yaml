@@ -17,8 +17,8 @@ spec:
       containers:
         - name: zuul-operator
           # Custom build with executor securityContext fix
-          # Source: https://github.com/SeanMooney/zuul-operator/commit/89ce1ae
-          image: ghcr.io/seanmooney/zuul-operator:master-c3fe5ae
+          # Source: https://github.com/SeanMooney/zuul-operator
+          image: ghcr.io/seanmooney/zuul-operator:master-d2dc4be
           imagePullPolicy: IfNotPresent
           env:
             - name: WATCH_NAMESPACE

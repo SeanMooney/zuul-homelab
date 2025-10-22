@@ -15,7 +15,3 @@ resources:
   # Zuul CR and Ingress
   - zuul-cr.yaml
   - ingress.yaml
-
-patchesStrategicMerge:
-  # Fix SSH key permissions for executor (defaultMode: 256 = octal 0400)
-  - executor-sshkey-patch.yaml

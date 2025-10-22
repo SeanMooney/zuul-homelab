@@ -26,10 +26,14 @@ providers:
             spec:
               containers:
                 - name: ubuntu-22-04-pod
-                  image: ubuntu:22.04
-                  imagePullPolicy: IfNotPresent
-                  command: ["/bin/sh", "-c"]
-                  args: ["apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-apt && sleep infinity"]
+                  image: ghcr.io/seanmooney/ci-test-node-ubuntu-22.04:latest
+                  imagePullPolicy: Always
+                  env:
+                    - name: SSH_AUTHORIZED_KEYS
+                      valueFrom:
+                        secretKeyRef:
+                          name: zuul-executor-pubkey
+                          key: pubkey
           - name: ubuntu-24-04-pod
             type: pod
             python-path: /usr/bin/python3
@@ -38,10 +42,14 @@ providers:
             spec:
               containers:
                 - name: ubuntu-24-04-pod
-                  image: ubuntu:24.04
-                  imagePullPolicy: IfNotPresent
-                  command: ["/bin/sh", "-c"]
-                  args: ["apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-apt && sleep infinity"]
+                  image: ghcr.io/seanmooney/ci-test-node-ubuntu-24.04:latest
+                  imagePullPolicy: Always
+                  env:
+                    - name: SSH_AUTHORIZED_KEYS
+                      valueFrom:
+                        secretKeyRef:
+                          name: zuul-executor-pubkey
+                          key: pubkey
           - name: debian-13-pod
             type: pod
             python-path: /usr/bin/python3
@@ -50,7 +58,11 @@ providers:
             spec:
               containers:
                 - name: debian-13-pod
-                  image: debian:13
-                  imagePullPolicy: IfNotPresent
-                  command: ["/bin/sh", "-c"]
-                  args: ["apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-apt && sleep infinity"]
+                  image: ghcr.io/seanmooney/ci-test-node-debian-13:latest
+                  imagePullPolicy: Always
+                  env:
+                    - name: SSH_AUTHORIZED_KEYS
+                      valueFrom:
+                        secretKeyRef:
+                          name: zuul-executor-pubkey
+                          key: pubkey

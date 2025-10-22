@@ -13,6 +13,15 @@ rules:
     resources: ["pods", "pods/log", "pods/exec"]
     verbs: ["*"]
 
+  # Pod subresources for logs and port forwarding (required for delegation)
+  - apiGroups: [""]
+    resources: ["pods/logs"]
+    verbs: ["*"]
+
+  - apiGroups: [""]
+    resources: ["pods/portforward"]
+    verbs: ["*"]
+
   # Services for pod networking
   - apiGroups: [""]
     resources: ["services"]

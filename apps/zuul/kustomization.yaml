@@ -12,6 +12,8 @@ resources:
   - configs/
   # Secrets
   - secrets/
+  # Executor SSH public key secret
+  - executor-pubkey-secret.yaml
   # Zuul CR and Ingress
   - zuul-cr.yaml
   - ingress.yaml

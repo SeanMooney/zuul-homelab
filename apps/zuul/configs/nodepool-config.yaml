@@ -1,6 +1,6 @@
 zookeeper-servers:
   - host: zookeeper.zookeeper-system.svc.cluster.local
-    port: 2181
+    port: 2281  # TLS-enabled port
 
 labels:
   - name: ubuntu-22-04-pod

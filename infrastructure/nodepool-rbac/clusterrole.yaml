@@ -43,6 +43,7 @@ rules:
     verbs: ["create", "delete", "get", "list", "watch", "patch", "update"]
 
   # RBAC for pods created by nodepool
+  # 'bind' verb required to create Roles that grant permissions to other service accounts
   - apiGroups: ["rbac.authorization.k8s.io"]
     resources: ["roles", "rolebindings"]
-    verbs: ["create", "delete", "get", "list", "watch", "patch", "update"]
+    verbs: ["bind", "create", "delete", "get", "list", "watch", "patch", "update"]

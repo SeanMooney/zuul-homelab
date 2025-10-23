@@ -3,37 +3,16 @@ zookeeper-servers:
     port: 2281  # TLS-enabled port
 
 labels:
-  - name: ubuntu-22-04-pod
-    min-ready: 0  # On-demand for homelab
   - name: ubuntu-24-04-pod
-    min-ready: 0  # On-demand for homelab
+    min-ready: 1  # On-demand for homelab
   - name: debian-13-pod
-    min-ready: 0  # On-demand for homelab
+    min-ready: 1  # On-demand for homelab
 
 providers:
   - name: kubernetes-pods
     driver: kubernetes
-    max-servers: 5
-
+    max-servers: 4
     pools:
-      - name: main
-        labels:
-          - name: ubuntu-22-04-pod
-            type: pod
-            python-path: /usr/bin/python3
-            cpu: 2
-            memory: 2048
-            spec:
-              containers:
-                - name: ubuntu-22-04-pod
-                  image: ghcr.io/seanmooney/ci-test-node-ubuntu-22.04:latest
-                  imagePullPolicy: Always
-                  env:
-                    - name: SSH_AUTHORIZED_KEYS
-                      valueFrom:
-                        secretKeyRef:
-                          name: zuul-executor-pubkey
-                          key: pubkey
           - name: ubuntu-24-04-pod
             type: pod
             python-path: /usr/bin/python3

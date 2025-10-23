@@ -25,6 +25,7 @@ spec:
   # Web UI - single replica
   web:
     count: 1
+    status_url: https://zuul.teim.app
 
   # Executor - single replica
   executor:

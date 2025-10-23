@@ -113,15 +113,15 @@ spec:
     - apiVersion: apps/v1
       kind: Deployment
       name: external-secrets
-      namespace: external-secrets
+      namespace: flux-system
     - apiVersion: apps/v1
       kind: Deployment
       name: external-secrets-webhook
-      namespace: external-secrets
+      namespace: flux-system
     - apiVersion: apps/v1
       kind: Deployment
       name: external-secrets-cert-controller
-      namespace: external-secrets
+      namespace: flux-system
 ---
 # Layer 3: External Secrets Operator Configuration (after ESO is deployed)
 apiVersion: kustomize.toolkit.fluxcd.io/v1

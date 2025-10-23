@@ -91,6 +91,38 @@ spec:
   prune: true
   wait: true
 ---
+# Layer 2: External Secrets Operator (for dynamic namespace secret replication)
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: external-secrets
+  namespace: flux-system
+spec:
+  interval: 10m
+  retryInterval: 1m
+  timeout: 10m
+  dependsOn:
+    - name: namespaces
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/external-secrets
+  prune: true
+  wait: true
+  healthChecks:
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: external-secrets
+      namespace: external-secrets
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: external-secrets-webhook
+      namespace: external-secrets
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: external-secrets-cert-controller
+      namespace: external-secrets
+---
 # Layer 2: Nodepool RBAC (after namespaces)
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

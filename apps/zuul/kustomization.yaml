@@ -14,6 +14,8 @@ resources:
   - secrets/
   # Executor SSH public key secret
   - executor-pubkey-secret.yaml
+  # ClusterExternalSecret for replicating executor pubkey to nodepool namespaces
+  - cluster-external-secret.yaml
   # Zuul CR and Ingress
   - zuul-cr.yaml
   - ingress.yaml

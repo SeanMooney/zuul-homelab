@@ -1,0 +1,40 @@
+---
+# ServiceAccount for Kubernetes SecretStore provider
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: eso-kubernetes-provider
+  namespace: external-secrets
+---
+# ClusterRole to read secrets from zuul-system and create in all namespaces
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: eso-kubernetes-provider
+rules:
+  # Read secrets from source namespace (zuul-system)
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "list", "watch"]
+  # Create/update secrets in target namespaces
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["create", "update", "patch"]
+  # Required for token review
+  - apiGroups: ["authorization.k8s.io"]
+    resources: ["selfsubjectrulesreviews"]
+    verbs: ["create"]
+---
+# ClusterRoleBinding to grant permissions
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: eso-kubernetes-provider
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: eso-kubernetes-provider
+subjects:
+  - kind: ServiceAccount
+    name: eso-kubernetes-provider
+    namespace: external-secrets

@@ -50,3 +50,4 @@ spec:
     github:
       driver: github
       secretName: github-connection
+      app_name: ci-sean-mooney-zuul

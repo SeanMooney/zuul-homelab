@@ -65,6 +65,12 @@ spec:
           echo "Attaching policy to zuul-upload user..."
           mc admin policy attach myminio zuul-upload-policy --user "$ZUUL_ACCESS_KEY"
 
+          echo "Configuring lifecycle policy for zuul-logs bucket..."
+          mc ilm add --expiry-days 30 myminio/zuul-logs || echo "Lifecycle rule already exists or failed to apply"
+
+          echo "Verifying lifecycle policy..."
+          mc ilm ls myminio/zuul-logs
+
           echo "MinIO initialization complete!"
         env:
         - name: MINIO_ROOT_USER

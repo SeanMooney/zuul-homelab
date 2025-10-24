@@ -23,13 +23,14 @@ spec:
         fsGroup: 1000
       containers:
       - name: opencode
-        image: ghcr.io/seanmooney/ci-test-node-debian-13:latest
+        image: ghcr.io/seanmooney/ci-node-opencode:latest
         command:
-        - /bin/bash
-        - -c
-        - |
-          export PATH="/home/zuul/.opencode/bin:${PATH}"
-          exec opencode serve --port 4096 --hostname 0.0.0.0
+        - opencode
+        - serve
+        - --port
+        - "4096"
+        - --hostname
+        - "0.0.0.0"
         ports:
         - containerPort: 4096
           name: http
@@ -41,7 +42,7 @@ spec:
           value: /home/zuul/.opencode/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
         volumeMounts:
         - name: auth-config
-          mountPath: /home/zuul/.config/opencode/auth.json
+          mountPath: /home/zuul/.local/share/opencode/auth.json
           subPath: auth.json
           readOnly: true
         - name: workdir

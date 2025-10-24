@@ -37,6 +37,8 @@ spec:
         env:
         - name: HOME
           value: /home/zuul
+        - name: PATH
+          value: /home/zuul/.opencode/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
         volumeMounts:
         - name: auth-config
           mountPath: /home/zuul/.config/opencode/auth.json

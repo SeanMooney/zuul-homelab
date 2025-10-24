@@ -13,3 +13,8 @@ creation_rules:
   - path_regex: .*\.enc\.yaml$
     encrypted_regex: ^(data|stringData)$
     age: age1akle2yksua7txww5e86es4665pnmr875lpuax7rjvw0m7qthhq8s8fzm7t
+
+  # Encrypt opencode secrets
+  - path_regex: apps/opencode/secrets/.*\.yaml$
+    encrypted_regex: ^(data|stringData|literals)$
+    age: age1akle2yksua7txww5e86es4665pnmr875lpuax7rjvw0m7qthhq8s8fzm7t

@@ -44,29 +44,47 @@ spec:
         envFrom:
         - secretRef:
             name: litellm-keys
+        env:
+        - name: HOME
+          value: "/tmp"
+        - name: XDG_CACHE_HOME
+          value: "/tmp"
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        - name: DATABASE_URL
+          value: "postgresql://litellm:litellm_password_123@postgres.postgres-system.svc.cluster.local:5432/litellm"
+        - name: PRISMA_BINARY_PATH
+          value: "/tmp/.prisma"
+        - name: PRISMA_CACHE_DIR
+          value: "/tmp/.prisma-cache"
         volumeMounts:
         - name: config-volume
           mountPath: /app/config.yaml
           subPath: config.yaml
           readOnly: true
+        - name: cache-volume
+          mountPath: /tmp
+        - name: root-cache-volume
+          mountPath: /.cache
         resources:
           requests:
-            cpu: 200m
-            memory: 512Mi
-          limits:
-            cpu: 1000m
+            cpu: 500m
             memory: 1Gi
+          limits:
+            cpu: 2000m
+            memory: 2Gi
         livenessProbe:
-          httpGet:
-            path: /health/liveliness
-            port: 4000
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - "pgrep -f 'litellm --config' > /dev/null"
           initialDelaySeconds: 30
           periodSeconds: 10
           timeoutSeconds: 5
           failureThreshold: 3
         readinessProbe:
-          httpGet:
-            path: /health/readiness
+          tcpSocket:
             port: 4000
           initialDelaySeconds: 5
           periodSeconds: 5
@@ -76,3 +94,7 @@ spec:
       - name: config-volume
         configMap:
           name: litellm-config
+      - name: cache-volume
+        emptyDir: {}
+      - name: root-cache-volume
+        emptyDir: {}

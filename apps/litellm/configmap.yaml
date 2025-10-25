@@ -13,16 +13,27 @@ data:
     model_list:
       - model_name: glm-4.6
         litellm_params:
-          model: glm-4.6
+          model: openai/glm-4.6
           api_key: os.environ/Z_AI_API_KEY
-          api_base: https://api.z.ai/api/coding/paas/v4
+          api_base: https://api.z.ai/api/coding/paas/v4/
+      
       - model_name: glm-4.5-air
         litellm_params:
-          model: glm-4.5-air
+          model: openai/glm-4.5-air
           api_key: os.environ/Z_AI_API_KEY
-          api_base: https://api.z.ai/api/coding/paas/v4
+          api_base: https://api.z.ai/api/coding/paas/v4/
+      
       - model_name: glm-4.5-flash
         litellm_params:
-          model: glm-4.5-flash
+          model: openai/glm-4.5-flash
           api_key: os.environ/Z_AI_API_KEY
-          api_base: https://api.z.ai/api/coding/paas/v4
+          api_base: https://api.z.ai/api/coding/paas/v4/
+    
+    general_settings:
+      allow_requests_on_db_unavailable: true
+      disable_spend_logs: true
+      disable_error_logs: true
+    
+    litellm_settings:
+      set_verbose: false
+      json_logs: true

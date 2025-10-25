@@ -84,8 +84,11 @@ spec:
           timeoutSeconds: 5
           failureThreshold: 3
         readinessProbe:
-          tcpSocket:
-            port: 4000
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - "pgrep -f 'litellm --config' > /dev/null"
           initialDelaySeconds: 5
           periodSeconds: 5
           timeoutSeconds: 3

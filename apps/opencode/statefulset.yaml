@@ -25,12 +25,10 @@ spec:
       - name: opencode
         image: ghcr.io/seanmooney/ci-node-opencode:latest
         command:
-        - opencode
-        - serve
-        - --port
-        - "4096"
-        - --hostname
-        - "0.0.0.0"
+        - /bin/bash
+        - -c
+        - |
+          /home/zuul/.opencode/bin/opencode serve --port 4096 --hostname 0.0.0.0
         ports:
         - containerPort: 4096
           name: http
@@ -38,15 +36,11 @@ spec:
         env:
         - name: HOME
           value: /home/zuul
-        - name: PATH
-          value: /home/zuul/.opencode/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
         volumeMounts:
         - name: auth-config
           mountPath: /home/zuul/.local/share/opencode/auth.json
           subPath: auth.json
           readOnly: true
-        - name: workdir
-          mountPath: /home/zuul
         resources:
           requests:
             cpu: 100m
@@ -55,16 +49,14 @@ spec:
             cpu: 500m
             memory: 512Mi
         livenessProbe:
-          httpGet:
-            path: /app
+          tcpSocket:
             port: 4096
           initialDelaySeconds: 30
           periodSeconds: 10
           timeoutSeconds: 5
           failureThreshold: 3
         readinessProbe:
-          httpGet:
-            path: /app
+          tcpSocket:
             port: 4096
           initialDelaySeconds: 5
           periodSeconds: 5
@@ -77,5 +69,3 @@ spec:
           items:
           - key: auth.json
             path: auth.json
-      - name: workdir
-        emptyDir: {}

@@ -9,8 +9,9 @@ resources:
 - service.yaml
 - secrets/
 
-# Common labels
-commonLabels:
-  app.kubernetes.io/name: opencode
-  app.kubernetes.io/component: server
-  app.kubernetes.io/part-of: zuul-homelab
+# Common labels - only apply to metadata, not to selectors
+labels:
+- pairs:
+    app.kubernetes.io/name: opencode
+    app.kubernetes.io/component: server
+    app.kubernetes.io/part-of: zuul-homelab

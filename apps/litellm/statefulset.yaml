@@ -22,10 +22,6 @@ spec:
         app.kubernetes.io/component: proxy
         app.kubernetes.io/part-of: zuul-homelab
     spec:
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
       containers:
       - name: litellm
         image: ghcr.io/berriai/litellm:main-stable

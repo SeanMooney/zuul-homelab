@@ -12,6 +12,7 @@
 
         untrusted-projects:
           - SeanMooney/ci-jobs
+          - SeanMooney/openstack-ai-style-guide
 
       opendev:
         untrusted-projects:

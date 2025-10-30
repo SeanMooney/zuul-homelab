@@ -15,51 +15,53 @@ providers:
     driver: kubernetes
     max-servers: 8
     pools:
-      - name: ubuntu-24-04-pod
-        type: pod
-        python-path: /usr/bin/python3
-        cpu: 2
-        memory: 2048
-        spec:
-          containers:
-            - name: ubuntu-24-04-pod
-              image: ghcr.io/seanmooney/ci-test-node-ubuntu-24.04:latest
-              imagePullPolicy: Always
-              env:
-                - name: SSH_AUTHORIZED_KEYS
-                  valueFrom:
-                    secretKeyRef:
-                      name: zuul-executor-pubkey
-                      key: pubkey
-      - name: debian-13-pod
-        type: pod
-        python-path: /usr/bin/python3
-        cpu: 2
-        memory: 2048
-        spec:
-          containers:
-            - name: debian-13-pod
-              image: ghcr.io/seanmooney/ci-test-node-debian-13:latest
-              imagePullPolicy: Always
-              env:
-                - name: SSH_AUTHORIZED_KEYS
-                  valueFrom:
-                    secretKeyRef:
-                      name: zuul-executor-pubkey
-                      key: pubkey
-      - name: debian-opencode
-        type: pod
-        python-path: /usr/bin/python3
-        cpu: 2
-        memory: 2048
-        spec:
-          containers:
-            - name: debian-opencode
-              image: ghcr.io/seanmooney/ci-node-opencode:latest
-              imagePullPolicy: Always
-              env:
-                - name: SSH_AUTHORIZED_KEYS
-                  valueFrom:
-                    secretKeyRef:
-                      name: zuul-executor-pubkey
-                      key: pubkey
+      - name: main
+        labels:
+          - name: ubuntu-24-04-pod
+            type: pod
+            python-path: /usr/bin/python3
+            cpu: 2
+            memory: 2048
+            spec:
+              containers:
+                - name: ubuntu-24-04-pod
+                  image: ghcr.io/seanmooney/ci-test-node-ubuntu-24.04:latest
+                  imagePullPolicy: Always
+                  env:
+                    - name: SSH_AUTHORIZED_KEYS
+                      valueFrom:
+                        secretKeyRef:
+                          name: zuul-executor-pubkey
+                          key: pubkey
+          - name: debian-13-pod
+            type: pod
+            python-path: /usr/bin/python3
+            cpu: 2
+            memory: 2048
+            spec:
+              containers:
+                - name: debian-13-pod
+                  image: ghcr.io/seanmooney/ci-test-node-debian-13:latest
+                  imagePullPolicy: Always
+                  env:
+                    - name: SSH_AUTHORIZED_KEYS
+                      valueFrom:
+                        secretKeyRef:
+                          name: zuul-executor-pubkey
+                          key: pubkey
+          - name: debian-opencode
+            type: pod
+            python-path: /usr/bin/python3
+            cpu: 2
+            memory: 2048
+            spec:
+              containers:
+                - name: debian-opencode
+                  image: ghcr.io/seanmooney/ci-node-opencode:latest
+                  imagePullPolicy: Always
+                  env:
+                    - name: SSH_AUTHORIZED_KEYS
+                      valueFrom:
+                        secretKeyRef:
+                          name: zuul-executor-pubkey
+                          key: pubkey

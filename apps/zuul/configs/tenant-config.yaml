@@ -2,7 +2,7 @@
     name: main
     max-nodes-per-job: 3
     max-job-timeout: 7200  # 2 hours
-    web-root: https://zuul.teim.app
+    web-root: https://zuul.teim.app/t/main
 
     source:
       github:

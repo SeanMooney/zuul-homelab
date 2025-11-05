@@ -17,3 +17,24 @@
       opendev:
         untrusted-projects:
           - zuul/zuul-jobs
+          - include: []
+            projects:
+              - openstack/watcher
+              - openstack/watcher-dashboard
+              - openstack/watcher-tempest-plugin
+              - openstack/python-watcherclient
+              - openstack/nova
+              - openstack/placement
+              - openstack/ironic
+              - openstack/devstack
+              - openstack/cyborg
+              - openstack/neutron
+              - openstack/keystone
+              - openstack/glance
+              - openstack/cinder
+              - openstack/swift
+              - openstack/heat
+              - openstack/barbican
+              - openstack/ceilometer
+              - openstack/aetos
+              

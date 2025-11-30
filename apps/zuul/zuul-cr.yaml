@@ -6,6 +6,7 @@ metadata:
 spec:
   # Image configuration
   imagePrefix: quay.io/zuul-ci
+  zuulImageVersion: "13"
 
   # External database
   database:

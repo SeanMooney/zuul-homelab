@@ -11,6 +11,24 @@ metadata:
 data:
   config.yaml: |
     model_list:
+      - model_name: glm-4.7
+        litellm_params:
+          model: openai/glm-4.7
+          api_key: os.environ/Z_AI_API_KEY
+          api_base: https://api.z.ai/api/coding/paas/v4/
+      
+      - model_name: glm-4.7-flash
+        litellm_params:
+          model: openai/glm-4.7-flash
+          api_key: os.environ/Z_AI_API_KEY
+          api_base: https://api.z.ai/api/coding/paas/v4/
+      
+      - model_name: glm-4.7-flashx
+        litellm_params:
+          model: openai/glm-4.7-flashx
+          api_key: os.environ/Z_AI_API_KEY
+          api_base: https://api.z.ai/api/coding/paas/v4/
+      
       - model_name: glm-4.6
         litellm_params:
           model: openai/glm-4.6

@@ -25,7 +25,7 @@ spec:
       containers:
       - name: litellm
         image: ghcr.io/berriai/litellm:main-stable
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         args:
         - "--config"
         - "/app/config.yaml"

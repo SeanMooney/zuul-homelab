@@ -11,39 +11,42 @@ metadata:
 data:
   config.yaml: |
     model_list:
-      # Native Z.AI models (no api_base needed)
+      # Z.AI models via Anthropic-compatible endpoint
       - model_name: glm-4.7
         litellm_params:
-          model: zai/glm-4.7
+          model: anthropic/glm-4.7
           api_key: os.environ/ZAI_API_KEY
+          api_base: https://api.z.ai/api/anthropic
       
       - model_name: glm-4.6
         litellm_params:
-          model: zai/glm-4.6
+          model: anthropic/glm-4.6
           api_key: os.environ/ZAI_API_KEY
+          api_base: https://api.z.ai/api/anthropic
       
       - model_name: glm-4.5-air
         litellm_params:
-          model: zai/glm-4.5-air
+          model: anthropic/glm-4.5-air
           api_key: os.environ/ZAI_API_KEY
+          api_base: https://api.z.ai/api/anthropic
       
       - model_name: glm-4.5-flash
         litellm_params:
-          model: zai/glm-4.5-flash
+          model: anthropic/glm-4.5-flash
           api_key: os.environ/ZAI_API_KEY
+          api_base: https://api.z.ai/api/anthropic
       
-      # Custom models (not in native provider yet)
       - model_name: glm-4.7-flash
         litellm_params:
-          model: openai/glm-4.7-flash
+          model: anthropic/glm-4.7-flash
           api_key: os.environ/ZAI_API_KEY
-          api_base: https://api.z.ai/api/coding/paas/v4/
+          api_base: https://api.z.ai/api/anthropic
       
       - model_name: glm-4.7-flashx
         litellm_params:
-          model: openai/glm-4.7-flashx
+          model: anthropic/glm-4.7-flashx
           api_key: os.environ/ZAI_API_KEY
-          api_base: https://api.z.ai/api/coding/paas/v4/
+          api_base: https://api.z.ai/api/anthropic
     
     general_settings:
       allow_requests_on_db_unavailable: true

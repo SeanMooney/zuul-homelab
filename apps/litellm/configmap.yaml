@@ -12,39 +12,27 @@ data:
   config.yaml: |
     model_list:
       # Z.AI models via Anthropic-compatible endpoint
+      - model_name: glm-5
+        litellm_params:
+          model: anthropic/glm-5
+          api_key: os.environ/ZAI_API_KEY
+          api_base: https://api.z.ai/api/anthropic
+
       - model_name: glm-4.7
         litellm_params:
           model: anthropic/glm-4.7
           api_key: os.environ/ZAI_API_KEY
           api_base: https://api.z.ai/api/anthropic
-      
-      - model_name: glm-4.6
-        litellm_params:
-          model: anthropic/glm-4.6
-          api_key: os.environ/ZAI_API_KEY
-          api_base: https://api.z.ai/api/anthropic
-      
+
       - model_name: glm-4.5-air
         litellm_params:
           model: anthropic/glm-4.5-air
           api_key: os.environ/ZAI_API_KEY
           api_base: https://api.z.ai/api/anthropic
-      
-      - model_name: glm-4.5-flash
-        litellm_params:
-          model: anthropic/glm-4.5-flash
-          api_key: os.environ/ZAI_API_KEY
-          api_base: https://api.z.ai/api/anthropic
-      
+
       - model_name: glm-4.7-flash
         litellm_params:
           model: anthropic/glm-4.7-flash
-          api_key: os.environ/ZAI_API_KEY
-          api_base: https://api.z.ai/api/anthropic
-      
-      - model_name: glm-4.7-flashx
-        litellm_params:
-          model: anthropic/glm-4.7-flashx
           api_key: os.environ/ZAI_API_KEY
           api_base: https://api.z.ai/api/anthropic
     

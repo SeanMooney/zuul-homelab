@@ -21,17 +21,6 @@ data:
           - names: [client, federation]
             compress: false
 
-    # Database configuration (password provided via secrets overlay)
-    database:
-      name: psycopg2
-      args:
-        user: synapse
-        database: synapse
-        host: postgres.postgres-system.svc.cluster.local
-        port: 5432
-        cp_min: 5
-        cp_max: 10
-
     # Storage paths
     media_store_path: "/data/media_store"
     signing_key_path: "/data/signing.key"

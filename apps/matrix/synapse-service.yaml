@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: synapse
+  namespace: matrix-system
+  labels:
+    app.kubernetes.io/name: synapse
+    app.kubernetes.io/part-of: matrix
+spec:
+  selector:
+    app.kubernetes.io/name: synapse
+  ports:
+    - name: http
+      port: 8008
+      targetPort: 8008
+      protocol: TCP

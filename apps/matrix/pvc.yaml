@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: synapse-data
+  namespace: matrix-system
+  labels:
+    app.kubernetes.io/name: synapse
+    app.kubernetes.io/part-of: matrix
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 10Gi

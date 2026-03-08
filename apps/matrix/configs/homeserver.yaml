@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: synapse-config
+  namespace: matrix-system
+  labels:
+    app.kubernetes.io/name: synapse
+    app.kubernetes.io/part-of: matrix
+data:
+  homeserver.yaml: |
+    server_name: "matrix.teim.app"
+    public_baseurl: "https://matrix.teim.app/"
+
+    # Listener configuration
+    listeners:
+      - port: 8008
+        tls: false
+        type: http
+        x_forwarded: true
+        resources:
+          - names: [client, federation]
+            compress: false
+
+    # Database configuration (password provided via secrets overlay)
+    database:
+      name: psycopg2
+      args:
+        user: synapse
+        database: synapse
+        host: postgres.postgres-system.svc.cluster.local
+        port: 5432
+        cp_min: 5
+        cp_max: 10
+
+    # Storage paths
+    media_store_path: "/data/media_store"
+    signing_key_path: "/data/signing.key"
+
+    # Logging
+    log_config: "/config/log.yaml"
+
+    # Registration
+    enable_registration: false
+
+    # Federation
+    serve_server_wellknown: true
+
+    # Stats
+    report_stats: false
+
+    # Trusted key servers
+    trusted_key_servers:
+      - server_name: "matrix.org"
+
+  log.yaml: |
+    version: 1
+    formatters:
+      precise:
+        format: '%(asctime)s - %(name)s - %(lineno)d - %(levelname)s - %(request)s - %(message)s'
+    handlers:
+      console:
+        class: logging.StreamHandler
+        formatter: precise
+    loggers:
+      synapse.storage.SQL:
+        level: WARNING
+    root:
+      level: INFO
+      handlers: [console]
+    disable_existing_loggers: false

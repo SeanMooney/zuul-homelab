@@ -24,6 +24,12 @@ data:
           api_key: os.environ/ZAI_API_KEY
           api_base: https://api.z.ai/api/anthropic
 
+      - model_name: glm-5.1
+        litellm_params:
+          model: anthropic/glm-5.1
+          api_key: os.environ/ZAI_API_KEY
+          api_base: https://api.z.ai/api/anthropic
+
       - model_name: glm-4.7
         litellm_params:
           model: anthropic/glm-4.7
@@ -45,7 +51,7 @@ data:
     general_settings:
       allow_requests_on_db_unavailable: true
       disable_spend_logs: true
-      disable_error_logs: true
+      disable_error_logs: false
     
     litellm_settings:
       set_verbose: false

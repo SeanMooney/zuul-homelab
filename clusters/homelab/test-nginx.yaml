@@ -8,6 +8,10 @@ spec:
   interval: 5m
   retryInterval: 1m
   timeout: 2m
+  dependsOn:
+    - name: namespaces
+    - name: ingress-nginx
+    - name: certificates
   sourceRef:
     kind: GitRepository
     name: flux-system

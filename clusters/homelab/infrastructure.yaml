@@ -259,7 +259,7 @@ spec:
   dependsOn:
     - name: namespaces
     - name: ingress-nginx
-    - name: cert-manager
+    - name: certificates
   sourceRef:
     kind: GitRepository
     name: flux-system

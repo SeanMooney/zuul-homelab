@@ -2,6 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
+  - test-nginx.yaml
+  - external-services.yaml
   - zuul-system.yaml
   - postgres-system.yaml
   - zookeeper-system.yaml

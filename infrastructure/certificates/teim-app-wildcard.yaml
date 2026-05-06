@@ -33,13 +33,15 @@ spec:
   privateKey:
     algorithm: RSA
     size: 2048
+    rotationPolicy: Always
 
   # Secret template with Reflector annotations
   # This causes the secret to be automatically replicated to other namespaces
   secretTemplate:
     annotations:
-      # Allow reflection to other namespaces
+      # Allow reflection only to the app namespaces that consume this wildcard certificate
       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "test-nginx,external-services,zuul-system,matrix-system,minio-system"
 
       # Automatically replicate to these namespaces
       reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"

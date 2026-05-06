@@ -24,7 +24,7 @@ spec:
         fsGroup: 991
       initContainers:
         - name: generate-keys
-          image: matrixdotorg/synapse:latest
+          image: matrixdotorg/synapse:v1.152.0
           imagePullPolicy: Always
           command:
             - python
@@ -44,7 +44,7 @@ spec:
               mountPath: /data
       containers:
         - name: synapse
-          image: matrixdotorg/synapse:latest
+          image: matrixdotorg/synapse:v1.152.0
           imagePullPolicy: Always
           args:
             - run

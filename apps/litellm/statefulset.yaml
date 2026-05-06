@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - name: litellm
-        image: ghcr.io/berriai/litellm:main-stable
+        image: ghcr.io/berriai/litellm:v1.83.3-stable
         imagePullPolicy: Always
         args:
         - "--config"
@@ -45,8 +45,6 @@ spec:
           value: "/tmp"
         - name: PYTHONUNBUFFERED
           value: "1"
-        - name: DATABASE_URL
-          value: "postgresql://litellm:litellm_password_123@postgres.postgres-system.svc.cluster.local:5432/litellm"
         - name: PRISMA_BINARY_PATH
           value: "/tmp/.prisma"
         - name: PRISMA_CACHE_DIR

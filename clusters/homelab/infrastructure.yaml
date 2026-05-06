@@ -265,6 +265,7 @@ spec:
     name: flux-system
   path: ./infrastructure/minio
   prune: true
+  force: true
   wait: true
   decryption:
     provider: sops

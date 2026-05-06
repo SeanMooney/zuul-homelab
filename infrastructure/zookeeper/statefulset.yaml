@@ -58,7 +58,7 @@ spec:
               mountPath: /tls/server
       containers:
         - name: zookeeper
-          image: zookeeper:3.9.1
+          image: zookeeper:3.9.5
           ports:
             - containerPort: 2281
               name: secure-client

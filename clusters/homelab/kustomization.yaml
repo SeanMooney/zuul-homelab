@@ -6,6 +6,5 @@ resources:
   - infrastructure.yaml
   - external-services.yaml
   - matrix.yaml
-  - test-nginx.yaml
   - zuul.yaml
   - litellm.yaml

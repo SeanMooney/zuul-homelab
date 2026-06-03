@@ -24,6 +24,8 @@ spec:
             - |
               set -ex
 
+              rm -f /tls/server/keystore.p12 /tls/server/keystore.jks /tls/server/truststore.jks
+
               # Create keystore from server certificate and key
               openssl pkcs12 -export \
                 -in /tls-pem/tls.crt \

@@ -5,7 +5,7 @@ namespace: zuul-system
 
 resources:
   # Zuul CRD
-  - https://opendev.org/zuul/zuul-operator/raw/branch/master/deploy/crds/zuul-ci_v1alpha2_zuul_crd.yaml
+  - crds/zuul-ci_v1alpha2_zuul_crd.yaml
   # Operator
   - operator/
   # Configurations

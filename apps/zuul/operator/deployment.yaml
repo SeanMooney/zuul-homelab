@@ -18,7 +18,7 @@ spec:
         - name: zuul-operator
           # Custom build with executor securityContext fix
           # Source: https://github.com/SeanMooney/zuul-operator
-          image: ghcr.io/seanmooney/zuul-operator:master-d2dc4be
+          image: ghcr.io/seanmooney/zuul-operator:master-be86b0c
           imagePullPolicy: IfNotPresent
           env:
             - name: WATCH_NAMESPACE

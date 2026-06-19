@@ -1,0 +1,8 @@
+apiVersion: cilium.io/v2
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: homelab-lb-pool
+spec:
+  allowFirstLastIPs: "No"
+  blocks:
+    - cidr: 192.168.19.0/26

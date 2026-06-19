@@ -40,6 +40,25 @@ spec:
       name: ingress-nginx-controller
       namespace: ingress-nginx
 ---
+# Layer 2: Cilium LoadBalancer IPAM (after namespaces)
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cilium-lbipam
+  namespace: flux-system
+spec:
+  interval: 10m
+  retryInterval: 1m
+  timeout: 2m
+  dependsOn:
+    - name: namespaces
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/cilium-lbipam
+  prune: true
+  wait: true
+---
 # Layer 2: Cert-Manager (after namespaces)
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

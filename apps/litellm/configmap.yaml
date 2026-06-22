@@ -11,7 +11,7 @@ metadata:
 data:
   config.yaml: |
     model_list:
-      # Z.AI models via Anthropic-compatible endpoint
+      # Legacy Z.AI aliases via Anthropic-compatible endpoint.
       - model_name: glm-4.7
         litellm_params:
           model: anthropic/glm-4.7
@@ -30,7 +30,71 @@ data:
           api_key: os.environ/ZAI_API_KEY
           api_base: https://api.z.ai/api/anthropic
 
+      # Z.AI canary aliases. Keep both native and Anthropic-compatible paths
+      # available until native LiteLLM coverage is verified with live calls.
+      - model_name: zai-native-glm-4.7-flash
+        litellm_params:
+          model: zai/glm-4.7
+          api_key: os.environ/ZAI_API_KEY
+
+      - model_name: zai-anthropic-glm-4.7-flash
+        litellm_params:
+          model: anthropic/glm-4.7
+          api_key: os.environ/ZAI_API_KEY
+          api_base: https://api.z.ai/api/anthropic
+          thinking:
+            type: disabled
+
+      - model_name: zai-native-glm-5.2
+        litellm_params:
+          model: zai/glm-5.2
+          api_key: os.environ/ZAI_API_KEY
+
+      - model_name: zai-anthropic-glm-5.2
+        litellm_params:
+          model: anthropic/glm-5.2
+          api_key: os.environ/ZAI_API_KEY
+          api_base: https://api.z.ai/api/anthropic
+
+      # Provider-specific aliases for direct testing.
+      - model_name: zai-glm-4.7-flash
+        litellm_params:
+          model: anthropic/glm-4.7
+          api_key: os.environ/ZAI_API_KEY
+          api_base: https://api.z.ai/api/anthropic
+          thinking:
+            type: disabled
+
+      - model_name: zai-glm-5.2
+        litellm_params:
+          model: anthropic/glm-5.2
+          api_key: os.environ/ZAI_API_KEY
+          api_base: https://api.z.ai/api/anthropic
+
       # OpenAI Codex via ChatGPT subscription OAuth.
+      - model_name: chatgpt-codex-5.3-spark
+        litellm_params:
+          model: chatgpt/gpt-5.3-spark
+        model_info:
+          mode: responses
+          supported_endpoints:
+          - /v1/chat/completions
+          - /v1/responses
+          max_input_tokens: 1050000
+          max_output_tokens: 128000
+
+      - model_name: chatgpt-codex-5.5
+        litellm_params:
+          model: chatgpt/gpt-5.5
+        model_info:
+          mode: responses
+          supported_endpoints:
+          - /v1/chat/completions
+          - /v1/responses
+          max_input_tokens: 1050000
+          max_output_tokens: 128000
+
+      # Legacy Codex alias.
       - model_name: codex-gpt-5.5
         litellm_params:
           model: chatgpt/gpt-5.5
@@ -41,12 +105,55 @@ data:
           - /v1/responses
           max_input_tokens: 1050000
           max_output_tokens: 128000
-    
+
+      # Load-balanced semantic tiers used by CI.
+      - model_name: fast
+        litellm_params:
+          model: anthropic/glm-4.7
+          api_key: os.environ/ZAI_API_KEY
+          api_base: https://api.z.ai/api/anthropic
+          thinking:
+            type: disabled
+
+      - model_name: fast
+        litellm_params:
+          model: chatgpt/gpt-5.3-spark
+        model_info:
+          mode: responses
+          supported_endpoints:
+          - /v1/chat/completions
+          - /v1/responses
+          max_input_tokens: 1050000
+          max_output_tokens: 128000
+
+      - model_name: smart
+        litellm_params:
+          model: anthropic/glm-5.2
+          api_key: os.environ/ZAI_API_KEY
+          api_base: https://api.z.ai/api/anthropic
+
+      - model_name: smart
+        litellm_params:
+          model: chatgpt/gpt-5.5
+        model_info:
+          mode: responses
+          supported_endpoints:
+          - /v1/chat/completions
+          - /v1/responses
+          max_input_tokens: 1050000
+          max_output_tokens: 128000
+
     general_settings:
       allow_requests_on_db_unavailable: true
       disable_spend_logs: true
       disable_error_logs: false
-    
+
+    router_settings:
+      routing_strategy: simple-shuffle
+      num_retries: 2
+      allowed_fails: 1
+      cooldown_time: 60
+
     litellm_settings:
       set_verbose: false
       json_logs: true

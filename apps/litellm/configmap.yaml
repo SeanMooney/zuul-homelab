@@ -29,6 +29,18 @@ data:
           model: anthropic/glm-5.2
           api_key: os.environ/ZAI_API_KEY
           api_base: https://api.z.ai/api/anthropic
+
+      # OpenAI Codex via ChatGPT subscription OAuth.
+      - model_name: codex-gpt-5.5
+        litellm_params:
+          model: chatgpt/gpt-5.5
+        model_info:
+          mode: responses
+          supported_endpoints:
+          - /v1/chat/completions
+          - /v1/responses
+          max_input_tokens: 1050000
+          max_output_tokens: 128000
     
     general_settings:
       allow_requests_on_db_unavailable: true

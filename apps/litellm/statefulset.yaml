@@ -22,6 +22,27 @@ spec:
         app.kubernetes.io/component: proxy
         app.kubernetes.io/part-of: zuul-homelab
     spec:
+      initContainers:
+      - name: seed-chatgpt-auth
+        image: busybox:1.36
+        imagePullPolicy: IfNotPresent
+        command:
+        - /bin/sh
+        - -c
+        args:
+        - |
+          set -eu
+          mkdir -p /chatgpt
+          if [ ! -s /chatgpt/auth.json ]; then
+            cp /seed/auth.json /chatgpt/auth.json
+            chmod 600 /chatgpt/auth.json
+          fi
+        volumeMounts:
+        - name: chatgpt-auth-volume
+          mountPath: /chatgpt
+        - name: chatgpt-auth-seed
+          mountPath: /seed
+          readOnly: true
       containers:
       - name: litellm
         image: ghcr.io/berriai/litellm:v1.89.3
@@ -43,6 +64,8 @@ spec:
           value: "/tmp"
         - name: XDG_CACHE_HOME
           value: "/tmp"
+        - name: CHATGPT_TOKEN_DIR
+          value: "/var/lib/litellm/chatgpt"
         - name: PYTHONUNBUFFERED
           value: "1"
         - name: PRISMA_BINARY_PATH
@@ -58,6 +81,8 @@ spec:
           mountPath: /tmp
         - name: root-cache-volume
           mountPath: /.cache
+        - name: chatgpt-auth-volume
+          mountPath: /var/lib/litellm/chatgpt
         resources:
           requests:
             cpu: 500m
@@ -97,3 +122,9 @@ spec:
         emptyDir: {}
       - name: root-cache-volume
         emptyDir: {}
+      - name: chatgpt-auth-volume
+        persistentVolumeClaim:
+          claimName: litellm-chatgpt-auth
+      - name: chatgpt-auth-seed
+        secret:
+          secretName: litellm-chatgpt-auth

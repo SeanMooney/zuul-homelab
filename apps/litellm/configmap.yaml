@@ -106,7 +106,8 @@ data:
           max_input_tokens: 1050000
           max_output_tokens: 128000
 
-      # Load-balanced semantic tiers used by CI.
+      # Semantic tiers used by CI. GLM is primary; ChatGPT Codex aliases are
+      # configured as router fallbacks below.
       - model_name: fast
         litellm_params:
           model: anthropic/glm-4.7
@@ -115,33 +116,11 @@ data:
           thinking:
             type: disabled
 
-      - model_name: fast
-        litellm_params:
-          model: chatgpt/gpt-5.3-codex-spark
-        model_info:
-          mode: responses
-          supported_endpoints:
-          - /v1/chat/completions
-          - /v1/responses
-          max_input_tokens: 1050000
-          max_output_tokens: 128000
-
       - model_name: smart
         litellm_params:
           model: anthropic/glm-5.2
           api_key: os.environ/ZAI_API_KEY
           api_base: https://api.z.ai/api/anthropic
-
-      - model_name: smart
-        litellm_params:
-          model: chatgpt/gpt-5.5
-        model_info:
-          mode: responses
-          supported_endpoints:
-          - /v1/chat/completions
-          - /v1/responses
-          max_input_tokens: 1050000
-          max_output_tokens: 128000
 
     general_settings:
       allow_requests_on_db_unavailable: true
@@ -153,6 +132,11 @@ data:
       num_retries: 2
       allowed_fails: 1
       cooldown_time: 60
+      fallbacks:
+      - fast:
+        - chatgpt-codex-5.3-spark
+      - smart:
+        - chatgpt-codex-5.5
 
     litellm_settings:
       set_verbose: false

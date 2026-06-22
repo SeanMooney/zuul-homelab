@@ -74,7 +74,7 @@ data:
       # OpenAI Codex via ChatGPT subscription OAuth.
       - model_name: chatgpt-codex-5.3-spark
         litellm_params:
-          model: chatgpt/gpt-5.3-spark
+          model: chatgpt/gpt-5.3-codex-spark
         model_info:
           mode: responses
           supported_endpoints:
@@ -117,7 +117,7 @@ data:
 
       - model_name: fast
         litellm_params:
-          model: chatgpt/gpt-5.3-spark
+          model: chatgpt/gpt-5.3-codex-spark
         model_info:
           mode: responses
           supported_endpoints:

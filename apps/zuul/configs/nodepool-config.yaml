@@ -7,8 +7,6 @@ labels:
     min-ready: 0
   - name: debian-13-pod
     min-ready: 0
-  - name: debian-opencode
-    min-ready: 0
   - name: debian-claude-code
     min-ready: 0
 
@@ -44,22 +42,6 @@ providers:
               containers:
                 - name: debian-13-pod
                   image: ghcr.io/seanmooney/ci-test-node-debian-13:latest
-                  imagePullPolicy: Always
-                  env:
-                    - name: SSH_AUTHORIZED_KEYS
-                      valueFrom:
-                        secretKeyRef:
-                          name: zuul-executor-pubkey
-                          key: pubkey
-          - name: debian-opencode
-            type: pod
-            python-path: /usr/bin/python3
-            cpu: 2
-            memory: 2048
-            spec:
-              containers:
-                - name: debian-opencode
-                  image: ghcr.io/seanmooney/ci-node-opencode:latest
                   imagePullPolicy: Always
                   env:
                     - name: SSH_AUTHORIZED_KEYS

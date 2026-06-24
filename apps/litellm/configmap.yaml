@@ -106,8 +106,8 @@ data:
           max_input_tokens: 1050000
           max_output_tokens: 128000
 
-      # Semantic tiers used by CI. GLM is primary; ChatGPT Codex aliases are
-      # configured as router fallbacks below.
+      # Semantic tiers used by CI. GLM is the only configured backend for
+      # these aliases; ChatGPT Codex aliases remain available for direct tests.
       - model_name: fast
         litellm_params:
           model: anthropic/glm-4.7
@@ -132,11 +132,6 @@ data:
       num_retries: 2
       allowed_fails: 1
       cooldown_time: 60
-      fallbacks:
-      - fast:
-        - chatgpt-codex-5.3-spark
-      - smart:
-        - chatgpt-codex-5.5
 
     litellm_settings:
       set_verbose: false

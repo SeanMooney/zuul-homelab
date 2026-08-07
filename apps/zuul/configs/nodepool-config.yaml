@@ -9,7 +9,7 @@ labels:
     min-ready: 0
   - name: debian-claude-code
     min-ready: 0
-  - name: almalinux-9-static
+  - name: almalinux-10-static
     min-ready: 0
 
 providers:
@@ -73,7 +73,7 @@ providers:
       - name: main
         nodes:
           - name: 192.168.17.30
-            labels: almalinux-9-static
+            labels: almalinux-10-static
             host-key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIISI87UQze9FH/Pyc5Bi4MMJgJJKu+o5DhdOeVNbU0HV"
             username: alma
             python-path: /usr/bin/python3

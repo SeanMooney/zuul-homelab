@@ -11,6 +11,8 @@ labels:
     min-ready: 0
   - name: almalinux-10-static
     min-ready: 0
+  - name: centos-10-stream-static
+    min-ready: 0
 
 providers:
   - name: kubernetes-pods
@@ -76,5 +78,16 @@ providers:
             labels: almalinux-10-static
             host-key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIISI87UQze9FH/Pyc5Bi4MMJgJJKu+o5DhdOeVNbU0HV"
             username: alma
+            python-path: /usr/bin/python3
+            max-parallel-jobs: 1
+  - name: static-centos-10-stream
+    driver: static
+    pools:
+      - name: main
+        nodes:
+          - name: 192.168.17.173
+            labels: centos-10-stream-static
+            host-key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ4Icxzjrzp6JpwvrQrrbKnXxIC6L7Kk03UaeoE1vqL5"
+            username: zuul
             python-path: /usr/bin/python3
             max-parallel-jobs: 1

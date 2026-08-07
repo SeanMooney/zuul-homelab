@@ -5,15 +5,6 @@
     web-root: https://zuul.teim.app/t/main
 
     source:
-      github:
-        config-projects:
-          - SeanMooney/ci-sean-mooney:
-              load-branch: main
-
-        untrusted-projects:
-          - SeanMooney/ci-jobs
-          - SeanMooney/openstack-ai-style-guide
-
       opendev:
         untrusted-projects:
           - zuul/zuul-jobs
@@ -155,4 +146,13 @@
               - openstack/watcher-specs
               - openstack/watcher-tempest-plugin
               - openstack/whitebox-tempest-plugin
-              
+
+      github:
+        config-projects:
+          - SeanMooney/ci-sean-mooney:
+              load-branch: main
+
+        untrusted-projects:
+          - SeanMooney/ci-jobs
+          - SeanMooney/openstack-ai-style-guide
+          - SeanMooney/s2i-openstack-containers

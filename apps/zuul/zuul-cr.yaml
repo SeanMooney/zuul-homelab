@@ -48,6 +48,7 @@ spec:
     opendev:
       driver: gerrit
       server: review.opendev.org
+      canonical_hostname: opendev.org
       secretName: gerrit-connection
     github:
       driver: github

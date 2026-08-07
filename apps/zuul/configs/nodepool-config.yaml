@@ -9,6 +9,8 @@ labels:
     min-ready: 0
   - name: debian-claude-code
     min-ready: 0
+  - name: almalinux-9-static
+    min-ready: 0
 
 providers:
   - name: kubernetes-pods
@@ -65,3 +67,14 @@ providers:
                         secretKeyRef:
                           name: zuul-executor-pubkey
                           key: pubkey
+  - name: static-alma
+    driver: static
+    pools:
+      - name: main
+        nodes:
+          - name: 192.168.17.30
+            labels: almalinux-9-static
+            host-key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIISI87UQze9FH/Pyc5Bi4MMJgJJKu+o5DhdOeVNbU0HV"
+            username: alma
+            python-path: /usr/bin/python3
+            max-parallel-jobs: 1

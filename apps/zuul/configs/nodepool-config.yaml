@@ -76,7 +76,7 @@ providers:
         nodes:
           - name: 192.168.17.30
             labels: almalinux-10-static
-            host-key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIISI87UQze9FH/Pyc5Bi4MMJgJJKu+o5DhdOeVNbU0HV"
+            host-key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG4aLqWl7zJUVM9ZssxONDJAhK0LdfTNmBnh280K+lLR"
             username: alma
             python-path: /usr/bin/python3
             max-parallel-jobs: 1

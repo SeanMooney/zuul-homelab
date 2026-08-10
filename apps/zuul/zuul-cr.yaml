@@ -5,8 +5,9 @@ metadata:
   namespace: zuul-system
 spec:
   # Image configuration
-  imagePrefix: quay.io/zuul-ci
-  zuulImageVersion: "14"
+  # Personal Zuul fork built from feature/tenant-scoped-dependencies.
+  imagePrefix: ghcr.io/seanmooney
+  zuulImageVersion: "41a882b"
 
   # External database
   database:

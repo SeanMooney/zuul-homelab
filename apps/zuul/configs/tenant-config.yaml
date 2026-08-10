@@ -156,6 +156,9 @@
           - SeanMooney/ci-jobs
           - SeanMooney/openstack-ai-style-guide
           - SeanMooney/s2i-openstack-containers
+
+      github-readonly:
+        untrusted-projects:
           - openstack-k8s-operators/s2i-openstack-containers:
               exclude:
                 - pipeline

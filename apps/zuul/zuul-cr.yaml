@@ -54,3 +54,9 @@ spec:
       driver: github
       secretName: github-connection
       app_name: ci-sean-mooney-zuul
+    github-readonly:
+      # Dependency-only public repositories which do not need GitHub API
+      # access or webhook events.
+      driver: git
+      baseurl: https://github.com
+      canonical_hostname: github.com

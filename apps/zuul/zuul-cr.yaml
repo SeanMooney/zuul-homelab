@@ -8,6 +8,12 @@ spec:
   imagePrefix: quay.io/zuul-ci
   zuulImageVersion: "14"
 
+  # Connection secrets are consumed at process startup. Bump this value when
+  # rotating them so the operator rolls the Zuul pods through Flux.
+  env:
+    - name: ZUUL_CONNECTIONS_REVISION
+      value: "2026-08-10-classic-github-token"
+
   # External database
   database:
     secretName: zuul-db-uri

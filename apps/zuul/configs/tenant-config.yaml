@@ -160,20 +160,10 @@
           - SeanMooney/ci-jobs
           - SeanMooney/openstack-ai-style-guide
           - SeanMooney/s2i-openstack-containers
+          - openstack-k8s-operators/s2i-openstack-containers:
+              include: []
 
       github-readonly:
         untrusted-projects:
-          - openstack-k8s-operators/s2i-openstack-containers:
-              exclude:
-                - pipeline
-                - job
-                - semaphore
-                - project
-                - project-template
-                - nodeset
-                - secret
-                - image
-                - flavor
-                - label
-                - section
-                - provider
+          - metal3-io/baremetal-operator:
+              include: []

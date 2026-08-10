@@ -60,7 +60,9 @@ spec:
       # access or webhook events.
       driver: git
       baseurl: https://github.com
-      canonical_hostname: github.com
+      # Keep this distinct from the API-backed GitHub connection so Zuul does
+      # not deduplicate these projects onto that connection by canonical name.
+      canonical_hostname: github-readonly
       # Explicitly record the default to roll pods after connection-secret
       # changes; the operator hashes connection configuration, not secrets.
       poll_delay: 7200

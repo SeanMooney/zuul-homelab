@@ -7,7 +7,7 @@ spec:
   # Image configuration
   # Personal Zuul fork built from feature/tenant-scoped-dependencies.
   imagePrefix: ghcr.io/seanmooney
-  zuulImageVersion: "41a882b"
+  zuulImageVersion: "a6b66e1"
 
   # External database
   database:

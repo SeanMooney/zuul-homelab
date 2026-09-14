@@ -30,6 +30,18 @@ data:
           api_key: os.environ/ZAI_API_KEY
           api_base: https://api.z.ai/api/anthropic
 
+      - model_name: glm-5.3
+        litellm_params:
+          model: anthropic/glm-5.3
+          api_key: os.environ/ZAI_API_KEY
+          api_base: https://api.z.ai/api/anthropic
+
+      - model_name: glm-5.3-flash
+        litellm_params:
+          model: anthropic/glm-5.3-flash
+          api_key: os.environ/ZAI_API_KEY
+          api_base: https://api.z.ai/api/anthropic
+
       # Z.AI canary aliases. Keep both native and Anthropic-compatible paths
       # available until native LiteLLM coverage is verified with live calls.
       - model_name: zai-native-glm-4.7-flash
@@ -71,54 +83,16 @@ data:
           api_key: os.environ/ZAI_API_KEY
           api_base: https://api.z.ai/api/anthropic
 
-      # OpenAI Codex via ChatGPT subscription OAuth.
-      - model_name: chatgpt-codex-5.3-spark
-        litellm_params:
-          model: chatgpt/gpt-5.3-codex-spark
-        model_info:
-          mode: responses
-          supported_endpoints:
-          - /v1/chat/completions
-          - /v1/responses
-          max_input_tokens: 1050000
-          max_output_tokens: 128000
-
-      - model_name: chatgpt-codex-5.5
-        litellm_params:
-          model: chatgpt/gpt-5.5
-        model_info:
-          mode: responses
-          supported_endpoints:
-          - /v1/chat/completions
-          - /v1/responses
-          max_input_tokens: 1050000
-          max_output_tokens: 128000
-
-      # Legacy Codex alias.
-      - model_name: codex-gpt-5.5
-        litellm_params:
-          model: chatgpt/gpt-5.5
-        model_info:
-          mode: responses
-          supported_endpoints:
-          - /v1/chat/completions
-          - /v1/responses
-          max_input_tokens: 1050000
-          max_output_tokens: 128000
-
-      # Semantic tiers used by CI. GLM is the only configured backend for
-      # these aliases; ChatGPT Codex aliases remain available for direct tests.
+      # Semantic tiers used by CI.
       - model_name: fast
         litellm_params:
-          model: anthropic/glm-4.7
+          model: anthropic/glm-5.3-flash
           api_key: os.environ/ZAI_API_KEY
           api_base: https://api.z.ai/api/anthropic
-          thinking:
-            type: disabled
 
       - model_name: smart
         litellm_params:
-          model: anthropic/glm-5.2
+          model: anthropic/glm-5.3
           api_key: os.environ/ZAI_API_KEY
           api_base: https://api.z.ai/api/anthropic
 

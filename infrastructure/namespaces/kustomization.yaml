@@ -7,5 +7,4 @@ resources:
   - postgres-system.yaml
   - zookeeper-system.yaml
   - ingress-nginx.yaml
-  - minio-system.yaml
   - matrix-system.yaml

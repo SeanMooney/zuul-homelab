@@ -9,6 +9,7 @@ resources:
   - deployment.yaml
   - service.yaml
   - ingress.yaml
+  - cleanup-cronjob.yaml
 
 configMapGenerator:
   - name: zuul-logserver-config

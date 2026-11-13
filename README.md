@@ -27,7 +27,7 @@ This repository contains a complete Zuul CI/CD system deployment for a homelab K
 - **Nodepool**: Dynamic node provisioning for CI jobs using Kubernetes pods
 - **Zookeeper**: Coordination service for Zuul and Nodepool
 - **PostgreSQL**: Database backend for Zuul
-- **MinIO**: S3-compatible object storage for build logs
+- **Zuul log server**: Static HTTPS logs with SSH uploads and nightly retention
 - **Ingress-NGINX**: HTTP/HTTPS ingress controller
 - **Cert-Manager**: Automated TLS certificate management
 - **SOPS**: Secret encryption with Age
@@ -50,7 +50,7 @@ zuul-homelab/
 │   ├── certificates/          # TLS certificates (Zookeeper, wildcard)
 │   ├── zookeeper/             # Zookeeper StatefulSet
 │   ├── database/              # PostgreSQL StatefulSet
-│   ├── minio/                 # MinIO object storage
+│   ├── zuul-logserver/         # Static log server and nightly retention
 │   ├── nodepool-rbac/         # RBAC for nodepool pod creation
 │   ├── reflector/             # Secret/ConfigMap replication (Helm)
 │   ├── external-secrets/      # External Secrets Operator (Helm)
@@ -408,7 +408,7 @@ Infrastructure is deployed in layers with dependencies:
 **Layer 4 (Storage & Databases):**
 - Zookeeper
 - PostgreSQL
-- MinIO
+- Zuul log server
 
 **Layer 5 (Applications):**
 - Zuul Operator

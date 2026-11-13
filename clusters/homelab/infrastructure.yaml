@@ -265,7 +265,7 @@ spec:
     secretRef:
       name: sops-age
 ---
-# Layer 3: Temporary SSH log server (alongside MinIO during migration)
+# Layer 3: SSH log server
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
@@ -284,32 +284,6 @@ spec:
     name: flux-system
   path: ./infrastructure/zuul-logserver
   prune: true
-  wait: true
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
----
-# Layer 3: MinIO Object Storage (after namespaces, ingress, cert-manager)
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: minio
-  namespace: flux-system
-spec:
-  interval: 10m
-  retryInterval: 1m
-  timeout: 10m
-  dependsOn:
-    - name: namespaces
-    - name: ingress-nginx
-    - name: certificates
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./infrastructure/minio
-  prune: true
-  force: true
   wait: true
   decryption:
     provider: sops

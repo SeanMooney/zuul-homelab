@@ -1,0 +1,58 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: zuul-logserver-prune
+  namespace: zuul-system
+spec:
+  schedule: "0 3 * * *"
+  timeZone: Etc/UTC
+  concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 3600
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      activeDeadlineSeconds: 3600
+      template:
+        spec:
+          restartPolicy: Never
+          automountServiceAccountToken: false
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            seccompProfile:
+              type: RuntimeDefault
+          containers:
+            - name: prune
+              image: ghcr.io/seanmooney/ci-test-node-debian-13:8874b90@sha256:2cba9412170e385a5675fc21ff3f53da431536f91e248a634af4e8d19d49f102
+              command:
+                - /bin/bash
+                - -ec
+                - |
+                  find -P /srv/static/logs -regextype posix-extended \
+                    -mindepth 3 -maxdepth 3 -type d \
+                    -regex '/srv/static/logs/[0-9a-f]{3}/[^/]+/[0-9a-f]{32}' \
+                    -mmin +43200 -print -exec rm -rf -- {} +
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities:
+                  drop:
+                    - ALL
+              resources:
+                requests:
+                  cpu: 50m
+                  memory: 32Mi
+                limits:
+                  cpu: 500m
+                  memory: 128Mi
+              volumeMounts:
+                - name: logs
+                  mountPath: /srv/static/logs
+                  subPath: logs
+          volumes:
+            - name: logs
+              persistentVolumeClaim:
+                claimName: zuul-logserver-data

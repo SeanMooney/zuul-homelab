@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: zuul-logserver
+  namespace: zuul-system
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - zuul-logs.teim.app
+      secretName: teim-app-wildcard-tls
+  rules:
+    - host: zuul-logs.teim.app
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: zuul-logserver-web
+                port:
+                  number: 8080

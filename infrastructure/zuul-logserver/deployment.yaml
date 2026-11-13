@@ -1,0 +1,188 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zuul-logserver
+  namespace: zuul-system
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: zuul-logserver
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: zuul-logserver
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      initContainers:
+        - name: initialize-storage
+          # Existing CI image supplies ssh-keygen, Python and rsync.
+          image: ghcr.io/seanmooney/ci-test-node-debian-13:8874b90@sha256:2cba9412170e385a5675fc21ff3f53da431536f91e248a634af4e8d19d49f102
+          command:
+            - /bin/bash
+            - -ec
+            - |
+              mkdir -p /storage/logs /storage/ssh-host-keys
+              chown 1000:1000 /storage/logs
+              chmod 0755 /storage/logs
+              chmod 0700 /storage/ssh-host-keys
+              if [ ! -s /storage/ssh-host-keys/ssh_host_ed25519_key ]; then
+                ssh-keygen -q -t ed25519 -N '' \
+                  -f /storage/ssh-host-keys/ssh_host_ed25519_key
+              fi
+              chmod 0600 /storage/ssh-host-keys/ssh_host_ed25519_key
+              mkdir -p /run/sshd /scratch/nginx /scratch/ssh
+              chmod 0755 /run/sshd
+              chown 101:101 /scratch/nginx
+              chown 1000:1000 /home/zuul
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 250m
+              memory: 128Mi
+          volumeMounts:
+            - name: data
+              mountPath: /storage
+            - name: runtime
+              mountPath: /run
+            - name: scratch
+              mountPath: /scratch
+            - name: ssh-home
+              mountPath: /home/zuul
+      containers:
+        - name: web
+          image: nginx:stable-alpine@sha256:901e593c95dc85f5a729f5765516321366ef4ac401821431d408897e95287d0a
+          command:
+            - /usr/sbin/nginx
+          args:
+            - -c
+            - /etc/zuul-logserver/nginx.conf
+            - -g
+            - daemon off;
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 101
+            runAsGroup: 101
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 10
+          resources:
+            requests:
+              cpu: 50m
+              memory: 32Mi
+            limits:
+              cpu: 500m
+              memory: 128Mi
+          volumeMounts:
+            - name: data
+              mountPath: /srv/static/logs
+              subPath: logs
+              readOnly: true
+            - name: config
+              mountPath: /etc/zuul-logserver
+              readOnly: true
+            - name: scratch
+              mountPath: /tmp
+              subPath: nginx
+        - name: ssh
+          image: ghcr.io/seanmooney/ci-test-node-debian-13:8874b90@sha256:2cba9412170e385a5675fc21ff3f53da431536f91e248a634af4e8d19d49f102
+          # Bypass the worker entrypoint: sshd reads the mounted key file.
+          command:
+            - /usr/sbin/sshd
+          args:
+            - -D
+            - -e
+            - -f
+            - /etc/zuul-logserver/sshd_config
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+          ports:
+            - name: ssh
+              containerPort: 2222
+          readinessProbe:
+            tcpSocket:
+              port: ssh
+          livenessProbe:
+            tcpSocket:
+              port: ssh
+            initialDelaySeconds: 10
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 1000m
+              memory: 256Mi
+          volumeMounts:
+            - name: data
+              mountPath: /srv/static/logs
+              subPath: logs
+            - name: data
+              mountPath: /var/lib/zuul-logserver/ssh-host-keys
+              subPath: ssh-host-keys
+              readOnly: true
+            - name: config
+              mountPath: /etc/zuul-logserver
+              readOnly: true
+            - name: authorized-keys
+              mountPath: /etc/zuul-logserver/authorized-keys
+              readOnly: true
+            - name: runtime
+              mountPath: /run
+            - name: scratch
+              mountPath: /tmp
+              subPath: ssh
+            - name: ssh-home
+              mountPath: /home/zuul
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: zuul-logserver-data
+        - name: config
+          configMap:
+            name: zuul-logserver-config
+        - name: authorized-keys
+          secret:
+            secretName: zuul-logserver-authorized-keys
+            defaultMode: 0444
+            items:
+              - key: authorized_keys
+                path: authorized_keys
+        - name: runtime
+          emptyDir:
+            sizeLimit: 16Mi
+        - name: scratch
+          emptyDir:
+            sizeLimit: 128Mi
+        - name: ssh-home
+          emptyDir:
+            sizeLimit: 128Mi

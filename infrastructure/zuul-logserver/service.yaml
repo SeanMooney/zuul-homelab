@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: zuul-logserver-web
+  namespace: zuul-system
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: zuul-logserver
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zuul-logserver-ssh
+  namespace: zuul-system
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: zuul-logserver
+  ports:
+    - name: ssh
+      port: 22
+      targetPort: ssh

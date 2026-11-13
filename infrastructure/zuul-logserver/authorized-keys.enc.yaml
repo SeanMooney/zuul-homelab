@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: zuul-logserver-authorized-keys
+    namespace: zuul-system
+type: Opaque
+stringData:
+    authorized_keys: ENC[AES256_GCM,data:WaXyi+Mg9onK5fUtChkpcwZMhrL5e8yYthmD7Q5MZ5boxZCMBrgQJuuOeL8HhEOKZZi0eYYZG3dnb+Od25wqOXQgaaUYnI+q2J35DrJE2KIzTCfbR58R5H8znVF1qZ6lTWx2s0nvYBcrN4r1,iv:ErqgnkLX2Unoy3BOWgjOKe6GH/Yhrxn3CUhB7OfNBYg=,tag:y0W4jzIOUyzg+wPdQjBxCg==,type:str]
+sops:
+    age:
+        - recipient: age1akle2yksua7txww5e86es4665pnmr875lpuax7rjvw0m7qthhq8s8fzm7t
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBPbkNiQlBUc2ZMa2ZEVDBL
+            SWVuOUsyNDZ1Y3daa2xZSE9VWXArVnVkT3k4CjF4UEcwa2dRV29EVkZnMEJYWDkz
+            bG8waElqUm9vb1NtbGo3Ym91MmpMUkUKLS0tIFh0aFg3bm42TzVndDZzWTZiUTY0
+            SFZaQzJlUkUwY2FYZDU4VkUrNVJOYnMK38mj5ECfiScz8E17JIhGJ1Oa33jFBsjb
+            N2nqBUVOXezodYxy8CfdJboA2HOZcCX6+igz6oVEI5uU/vpQbI8MLA==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2026-11-13T16:14:22Z"
+    mac: ENC[AES256_GCM,data:m3/NKZAFAL5YpjjeixdYxkwIBsQXjmUP/kXKTeRN3hkbppnv6QnJoovhcDAE+dV1jkyG66A3/YbOfD+i5uCiE46b6AZxclwfIbqobeAyE/P7XHUIECk8roER8Rym+WJuwUxbb4rlUwHVYw5YDg8vVsCLlVxGAhTMXItlaptvxbE=,iv:wkVokmc2hTMYl2pZzb73G7t+ABUSVdzkUXhs7uIVg5A=,tag:0xdeAuRDc3bVaClDVePK/Q==,type:str]
+    encrypted_regex: ^(data|stringData)$
+    version: 3.11.0

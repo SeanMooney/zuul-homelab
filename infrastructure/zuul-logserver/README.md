@@ -18,6 +18,12 @@ the individual file beneath the image's root-owned `/etc/ssh` directory keeps
 OpenSSH's strict ownership checks enabled. Restart the pod after authorized-key
 changes because the file uses a `subPath` mount. There is no public SSH Service.
 
+nginx allows cross-origin reads from `https://zuul.teim.app`, so the Zuul UI can
+load the manifest, console output and individual logs from this separate domain.
+Kustomize generates the ConfigMap from `nginx.conf` and `sshd_config` with a
+content hash in its name. Configuration changes therefore update the pod
+template and trigger a rollout automatically.
+
 The init container creates `logs` and `ssh-host-keys` directories on the PVC and
 generates an SSH host key only if one is absent. Only the `logs` subdirectory is
 mounted in nginx. Pod replacement preserves both logs and the SSH host identity;

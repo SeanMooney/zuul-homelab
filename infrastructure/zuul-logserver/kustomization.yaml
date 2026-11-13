@@ -4,9 +4,14 @@ kind: Kustomization
 namespace: zuul-system
 
 resources:
-  - configmap.yaml
   - authorized-keys.enc.yaml
   - pvc.yaml
   - deployment.yaml
   - service.yaml
   - ingress.yaml
+
+configMapGenerator:
+  - name: zuul-logserver-config
+    files:
+      - nginx.conf
+      - sshd_config

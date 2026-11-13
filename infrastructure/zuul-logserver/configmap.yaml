@@ -56,7 +56,7 @@ data:
     ListenAddress 0.0.0.0
     HostKey /var/lib/zuul-logserver/ssh-host-keys/ssh_host_ed25519_key
     PidFile /run/sshd.pid
-    AuthorizedKeysFile /etc/zuul-logserver/authorized-keys/authorized_keys
+    AuthorizedKeysFile /etc/ssh/zuul_authorized_keys
     PubkeyAuthentication yes
     PasswordAuthentication no
     KbdInteractiveAuthentication no

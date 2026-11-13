@@ -13,7 +13,10 @@ nginx exposes directory listings and serves the log directory read-only. SSH
 accepts the executor public key copied from
 `apps/zuul/executor-pubkey-secret.yaml` into the SOPS-encrypted
 `authorized-keys.enc.yaml` Secret. The Secret is mounted read-only and sshd reads
-its `authorized_keys` file directly. There is no public SSH Service.
+its `authorized_keys` file directly at `/etc/ssh/zuul_authorized_keys`. Mounting
+the individual file beneath the image's root-owned `/etc/ssh` directory keeps
+OpenSSH's strict ownership checks enabled. Restart the pod after authorized-key
+changes because the file uses a `subPath` mount. There is no public SSH Service.
 
 The init container creates `logs` and `ssh-host-keys` directories on the PVC and
 generates an SSH host key only if one is absent. Only the `logs` subdirectory is

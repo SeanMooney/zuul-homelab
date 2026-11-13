@@ -154,7 +154,8 @@ spec:
               mountPath: /etc/zuul-logserver
               readOnly: true
             - name: authorized-keys
-              mountPath: /etc/zuul-logserver/authorized-keys
+              mountPath: /etc/ssh/zuul_authorized_keys
+              subPath: authorized_keys
               readOnly: true
             - name: runtime
               mountPath: /run
